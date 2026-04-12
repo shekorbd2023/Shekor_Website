@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>শেকড় | খাঁটি জৈব খাদ্য — Shekor Organics</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--g:#1A3A1F;--g2:#2D5C34;--g3:#4A8C52;--gold:#D4A940;--gold2:#E8C050;--cream:#F5F2EB;--cream2:#EAE4D5;--brown:#3B1F0A;--w:#FEFFFE;--t:#1A2B1A;--t2:#3A4E3A;--t3:#6B826B;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--t);overflow-x:hidden;}
+.tb{background:var(--g);padding:.4rem 5%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;}
+.tb p,.tb a{font-size:.78rem;color:rgba(255,255,255,.75);font-family:'Hind Siliguri',sans-serif;text-decoration:none;}
+.tb a{color:var(--gold);}
+nav{background:var(--w);box-shadow:0 2px 20px rgba(0,0,0,.08);position:sticky;top:0;z-index:1000;padding:0 5%;}
+.ni{display:flex;align-items:center;justify-content:space-between;height:68px;}
+.nl{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nl img{width:46px;height:46px;border-radius:50%;object-fit:cover;}
+.nbn{font-family:'Hind Siliguri',sans-serif;font-size:1.25rem;font-weight:700;color:var(--g);}
+.nen{font-size:.6rem;color:var(--t3);letter-spacing:.12em;text-transform:uppercase;}
+.nlinks{display:flex;list-style:none;gap:.2rem;}
+.nlinks a{color:var(--t2);text-decoration:none;font-size:.9rem;padding:.45rem .9rem;border-radius:4px;font-family:'Hind Siliguri',sans-serif;transition:all .25s;}
+.nlinks a:hover,.nlinks a.act{background:var(--cream);color:var(--g);}
+.nr{display:flex;align-items:center;gap:.8rem;}
+.icb{background:none;border:none;cursor:pointer;padding:.4rem;border-radius:6px;font-size:1.1rem;color:var(--t2);position:relative;}
+.cb{position:absolute;top:-4px;right:-4px;background:var(--gold);color:var(--g);width:18px;height:18px;border-radius:50%;font-size:.65rem;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.bnav{background:var(--g);color:white;border:none;padding:.55rem 1.3rem;border-radius:25px;font-family:'Hind Siliguri',sans-serif;font-weight:600;font-size:.88rem;cursor:pointer;}
+.hbg{display:none;background:none;border:none;cursor:pointer;font-size:1.4rem;color:var(--g);}
+/* HERO */
+.hero{min-height:85vh;background:linear-gradient(145deg,var(--g) 0%,var(--g2) 55%,#3A6B3A 100%);display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:3rem;padding:5rem 5% 3rem;overflow:hidden;position:relative;}
+.hero::before{content:'';position:absolute;right:-5%;top:-10%;width:400px;height:400px;border-radius:50%;border:1px solid rgba(212,169,64,.1);}
+.ht{position:relative;z-index:2;animation:fu .9s ease both;}
+@keyframes fu{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+.htag{display:inline-flex;align-items:center;gap:8px;background:rgba(212,169,64,.15);border:1px solid rgba(212,169,64,.3);color:var(--gold);padding:.35rem 1rem;border-radius:20px;font-size:.78rem;letter-spacing:.1em;margin-bottom:1.2rem;font-family:'Hind Siliguri',sans-serif;}
+.hero h1{font-family:'Hind Siliguri',sans-serif;font-size:clamp(2rem,4.5vw,3.6rem);font-weight:700;color:white;line-height:1.2;margin-bottom:1rem;}
+.hero h1 span{color:var(--gold);display:block;}
+.herop{color:rgba(255,255,255,.72);line-height:1.85;margin-bottom:2rem;font-size:1rem;font-family:'Hind Siliguri',sans-serif;}
+.hbtns{display:flex;gap:1rem;flex-wrap:wrap;}
+.bgold{background:var(--gold);color:var(--g);padding:.85rem 2rem;border-radius:25px;text-decoration:none;font-weight:700;font-size:.95rem;font-family:'Hind Siliguri',sans-serif;transition:all .3s;display:inline-block;}
+.bgold:hover{background:var(--gold2);transform:translateY(-2px);}
+.bwh{border:1.5px solid rgba(255,255,255,.35);color:white;padding:.85rem 2rem;border-radius:25px;text-decoration:none;font-size:.95rem;font-family:'Hind Siliguri',sans-serif;display:inline-block;transition:all .3s;}
+.bwh:hover{border-color:var(--gold);color:var(--gold);}
+.hstats{display:flex;gap:2.5rem;margin-top:2.5rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.12);flex-wrap:wrap;}
+.hs h3{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--gold);}
+.hs p{font-size:.75rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.08em;}
+.hi{position:relative;z-index:2;}
+.himain{width:100%;aspect-ratio:1;border-radius:20px;object-fit:cover;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+.fc{position:absolute;background:rgba(26,58,31,.95);backdrop-filter:blur(10px);border:1px solid rgba(212,169,64,.25);border-radius:12px;padding:.9rem 1.1rem;color:white;}
+.fc1{top:5%;left:-10%;}.fc2{bottom:10%;right:-8%;}
+.fc small{font-size:.68rem;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:3px;}
+.fc strong{font-size:.9rem;font-family:'Hind Siliguri',sans-serif;}
+/* MARQUEE */
+.mq{background:var(--brown);padding:.9rem 0;overflow:hidden;}
+.mqt{display:flex;white-space:nowrap;animation:mq 28s linear infinite;}
+.mi{display:inline-flex;align-items:center;gap:.7rem;padding:0 1.8rem;font-size:.82rem;color:rgba(255,255,255,.65);font-family:'Hind Siliguri',sans-serif;}
+.mi::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--gold);display:block;}
+@keyframes mq{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+/* CATEGORIES */
+.cats{padding:4rem 5%;background:var(--w);}
+.cgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:1rem;max-width:1200px;margin:2.5rem auto 0;}
+.ccard{background:var(--cream);border-radius:14px;padding:1.2rem .8rem;text-align:center;text-decoration:none;transition:all .3s;border:2px solid transparent;cursor:pointer;}
+.ccard:hover,.ccard.act{border-color:var(--g);background:var(--w);transform:translateY(-3px);box-shadow:0 8px 25px rgba(26,58,31,.1);}
+.cci{font-size:2rem;margin-bottom:.5rem;}
+.ccn{font-family:'Hind Siliguri',sans-serif;font-size:.82rem;font-weight:600;color:var(--t);}
+.ccc{font-size:.7rem;color:var(--t3);}
+/* SECTION */
+.sec{padding:5rem 5%;}
+.sh{text-align:center;margin-bottom:3rem;}
+.slbl{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--g3);margin-bottom:.6rem;}
+.slbl::before,.slbl::after{content:'';width:20px;height:1px;background:var(--g3);}
+h2.st{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,3vw,2.4rem);color:var(--t);margin-bottom:.5rem;}
+h2.st em{font-style:italic;color:var(--g3);}
+.ssub{font-size:.92rem;color:var(--t3);font-family:'Hind Siliguri',sans-serif;}
+/* PRODUCTS */
+.psec{background:var(--cream);}
+.pfilt{display:flex;justify-content:center;gap:.5rem;margin-bottom:2.5rem;flex-wrap:wrap;}
+.pfb{padding:.45rem 1.2rem;border-radius:25px;border:1.5px solid var(--cream2);background:var(--w);font-family:'Hind Siliguri',sans-serif;font-size:.85rem;cursor:pointer;transition:all .25s;color:var(--t2);}
+.pfb.on,.pfb:hover{background:var(--g);color:white;border-color:var(--g);}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.3rem;max-width:1200px;margin:0 auto;}
+.pcard{background:var(--w);border-radius:16px;overflow:hidden;transition:all .3s;box-shadow:0 2px 10px rgba(0,0,0,.05);}
+.pcard:hover{transform:translateY(-5px);box-shadow:0 15px 40px rgba(26,58,31,.12);}
+.pci{width:100%;aspect-ratio:1;overflow:hidden;position:relative;background:var(--cream2);}
+.pci img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+.pcard:hover .pci img{transform:scale(1.05);}
+.pbdg{position:absolute;top:10px;left:10px;background:var(--g);color:var(--gold);font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:20px;font-weight:600;z-index:1;}
+.pcb{padding:1.1rem;}
+.pcat{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--g3);margin-bottom:4px;}
+.pnm{font-family:'Hind Siliguri',sans-serif;font-size:1rem;font-weight:600;color:var(--t);margin-bottom:.3rem;}
+.pwt{font-size:.78rem;color:var(--t3);margin-bottom:.6rem;}
+.prat{display:flex;align-items:center;gap:5px;margin-bottom:.7rem;}
+.pst{color:#F4A015;font-size:.75rem;}
+.prc{font-size:.72rem;color:var(--t3);}
+.pft{display:flex;align-items:center;justify-content:space-between;}
+.pprw{}
+.pold{font-size:.75rem;color:var(--t3);text-decoration:line-through;display:block;}
+.ppr{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--g);font-weight:600;}
+.punit{font-size:.7rem;color:var(--t3);}
+.padd{background:var(--g);color:white;border:none;padding:.5rem 1rem;border-radius:20px;font-family:'Hind Siliguri',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .25s;}
+.padd:hover{background:var(--g2);}
+/* SIZE SELECTOR */
+.psizes{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.8rem;}
+.sz{padding:.25rem .6rem;border-radius:6px;border:1px solid var(--cream2);background:transparent;font-family:'Hind Siliguri',sans-serif;font-size:.75rem;cursor:pointer;transition:all .2s;color:var(--t2);}
+.sz.sel,.sz:hover{background:var(--g);color:white;border-color:var(--g);}
+/* HONEY SECTION */
+.honey-sec{background:linear-gradient(135deg,#2A1A0A 0%,#4A2E0A 100%);padding:5rem 5%;}
+.honey-sec .slbl{color:var(--gold);}
+.honey-sec .slbl::before,.honey-sec .slbl::after{background:var(--gold);}
+.honey-sec h2{color:white;}
+.honey-sec h2 em{color:var(--gold);}
+.honey-sec .ssub{color:rgba(255,255,255,.6);}
+.hgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.2rem;max-width:1200px;margin:0 auto;}
+.hcard{background:rgba(255,255,255,.06);border:1px solid rgba(212,169,64,.2);border-radius:16px;overflow:hidden;transition:all .3s;cursor:pointer;}
+.hcard:hover{background:rgba(255,255,255,.1);border-color:rgba(212,169,64,.5);transform:translateY(-4px);}
+.hci{width:100%;aspect-ratio:1;overflow:hidden;}
+.hci img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+.hcard:hover .hci img{transform:scale(1.05);}
+.hcb{padding:1.1rem;}
+.hcn{font-family:'Hind Siliguri',sans-serif;font-size:1rem;font-weight:700;color:white;margin-bottom:.4rem;}
+.hcd{font-size:.8rem;color:rgba(255,255,255,.55);line-height:1.6;margin-bottom:.8rem;}
+.hprices{display:flex;flex-direction:column;gap:.3rem;margin-bottom:.8rem;}
+.hp{display:flex;justify-content:space-between;align-items:center;padding:.25rem 0;border-bottom:1px solid rgba(255,255,255,.07);}
+.hp:last-child{border-bottom:none;}
+.hp span{font-size:.78rem;color:rgba(255,255,255,.6);font-family:'Hind Siliguri',sans-serif;}
+.hp strong{font-size:.88rem;color:var(--gold);font-weight:600;}
+.horder{width:100%;background:var(--gold);color:var(--g);border:none;padding:.6rem;border-radius:10px;font-family:'Hind Siliguri',sans-serif;font-weight:700;cursor:pointer;font-size:.85rem;transition:all .3s;}
+.horder:hover{background:var(--gold2);}
+/* WHY */
+.why{background:var(--g);padding:5rem 5%;}
+.wi{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+.wt h2{font-family:'Hind Siliguri',sans-serif;font-size:2.1rem;font-weight:700;color:white;margin-bottom:1rem;}
+.wt h2 em{font-style:italic;color:var(--gold);font-family:'Playfair Display',serif;}
+.wtp{color:rgba(255,255,255,.65);line-height:1.9;margin-bottom:1.5rem;font-family:'Hind Siliguri',sans-serif;}
+.wfs{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.wf{display:flex;align-items:flex-start;gap:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:1rem;}
+.wfi{width:36px;height:36px;min-width:36px;background:rgba(212,169,64,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;}
+.wf h4{color:white;font-size:.87rem;font-weight:500;margin-bottom:2px;font-family:'Hind Siliguri',sans-serif;}
+.wf p{color:rgba(255,255,255,.5);font-size:.77rem;line-height:1.5;margin:0;}
+.wcs{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.wc{border-radius:14px;padding:1.8rem;text-align:center;}
+.wc:nth-child(1){background:rgba(255,255,255,.07);grid-column:span 2;}
+.wc:nth-child(2){background:rgba(212,169,64,.1);}
+.wc:nth-child(3){background:rgba(255,255,255,.05);}
+.wc .wic{font-size:1.8rem;margin-bottom:.6rem;}
+.wc h3{color:white;font-family:'Hind Siliguri',sans-serif;font-size:1rem;margin-bottom:.3rem;}
+.wc p{color:rgba(255,255,255,.5);font-size:.78rem;}
+/* TESTI */
+.tg{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem;max-width:1200px;margin:3rem auto 0;}
+.tc{background:var(--cream);border-radius:16px;padding:1.8rem;border:2px solid transparent;transition:all .3s;}
+.tc:hover{border-color:var(--g3);}
+.tch{display:flex;align-items:center;gap:12px;margin-bottom:1rem;}
+.tav{width:44px;height:44px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:'Playfair Display',serif;font-weight:600;}
+.ttnm{font-size:.9rem;font-weight:600;font-family:'Hind Siliguri',sans-serif;}
+.ttlc{font-size:.75rem;color:var(--t3);}
+.tsts{color:#F4A015;font-size:.8rem;letter-spacing:2px;margin-bottom:.8rem;}
+.ttxt{font-family:'Hind Siliguri',sans-serif;font-size:.93rem;line-height:1.85;color:var(--t2);}
+/* NEWS */
+.ns{background:linear-gradient(135deg,var(--g),var(--g2));padding:5rem 5%;text-align:center;}
+.ns h2{font-family:'Hind Siliguri',sans-serif;color:white;font-size:2rem;font-weight:700;margin-bottom:.8rem;}
+.ns h2 em{font-family:'Playfair Display',serif;font-style:italic;color:var(--gold);}
+.nsp{color:rgba(255,255,255,.65);max-width:480px;margin:0 auto 2rem;font-family:'Hind Siliguri',sans-serif;}
+.nf{display:flex;gap:.7rem;max-width:460px;margin:0 auto;}
+.nf input{flex:1;padding:.9rem 1.2rem;border-radius:25px;border:none;background:rgba(255,255,255,.12);color:white;font-family:'Hind Siliguri',sans-serif;font-size:.9rem;outline:none;}
+.nf input::placeholder{color:rgba(255,255,255,.45);}
+.nf button{background:var(--gold);color:var(--g);border:none;padding:.9rem 1.5rem;border-radius:25px;font-family:'Hind Siliguri',sans-serif;font-weight:700;cursor:pointer;white-space:nowrap;font-size:.88rem;}
+/* FOOTER */
+footer{background:#1A1208;color:rgba(255,255,255,.6);padding:4.5rem 5% 2rem;}
+.fg{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem;}
+.fb img{width:55px;height:55px;border-radius:50%;object-fit:cover;margin-bottom:.8rem;}
+.fb h3{font-family:'Hind Siliguri',sans-serif;font-size:1.3rem;font-weight:700;color:white;margin-bottom:.7rem;}
+.fb p{font-size:.85rem;line-height:1.9;max-width:240px;font-family:'Hind Siliguri',sans-serif;}
+.fsc{display:flex;gap:.6rem;margin-top:1.3rem;}
+.fsb{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none;color:rgba(255,255,255,.55);font-size:.8rem;font-weight:700;transition:all .3s;}
+.fsb:hover{background:var(--gold);color:var(--g);border-color:var(--gold);}
+.fcl h5{color:white;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.1rem;}
+.fcl ul{list-style:none;display:flex;flex-direction:column;gap:.55rem;}
+.fcl ul a{color:rgba(255,255,255,.5);text-decoration:none;font-size:.88rem;transition:color .25s;font-family:'Hind Siliguri',sans-serif;}
+.fcl ul a:hover{color:var(--gold);}
+.fbt{border-top:1px solid rgba(255,255,255,.07);padding-top:2rem;display:flex;justify-content:space-between;align-items:center;font-size:.78rem;flex-wrap:wrap;gap:.8rem;}
+.fbt a{color:var(--gold);text-decoration:none;}
+.fpay{display:flex;gap:.5rem;}
+.fpay span{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:3px 8px;font-size:.72rem;color:rgba(255,255,255,.55);}
+/* CART */
+.cov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;display:none;}
+.cov.op{display:block;}
+.cdr{position:fixed;right:0;top:0;bottom:0;width:380px;background:white;z-index:2001;transform:translateX(100%);transition:transform .35s ease;display:flex;flex-direction:column;box-shadow:-10px 0 40px rgba(0,0,0,.15);}
+.cdr.op{transform:translateX(0);}
+.cdh{padding:1.2rem 1.5rem;border-bottom:1px solid var(--cream2);display:flex;justify-content:space-between;align-items:center;}
+.cdh h3{font-family:'Hind Siliguri',sans-serif;font-size:1.1rem;font-weight:700;color:var(--g);}
+.cdc{background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--t3);}
+.cdit{flex:1;overflow-y:auto;padding:1rem 1.5rem;}
+.cdem{text-align:center;padding:3rem 1rem;color:var(--t3);font-family:'Hind Siliguri',sans-serif;}
+.ci{display:flex;gap:12px;padding:1rem 0;border-bottom:1px solid var(--cream);align-items:center;}
+.cii{width:60px;height:60px;border-radius:8px;overflow:hidden;flex-shrink:0;}
+.cii img{width:100%;height:100%;object-fit:cover;}
+.cin{font-family:'Hind Siliguri',sans-serif;font-size:.88rem;font-weight:600;color:var(--t);}
+.cisz{font-size:.75rem;color:var(--t3);}
+.cip{font-size:.88rem;color:var(--g);font-weight:600;margin-top:2px;}
+.ciq{display:flex;align-items:center;gap:8px;margin-top:6px;}
+.qb{width:24px;height:24px;border-radius:50%;border:1px solid var(--cream2);background:var(--cream);cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.qb:hover{background:var(--g);color:white;border-color:var(--g);}
+.qn{font-size:.88rem;font-weight:600;min-width:20px;text-align:center;}
+.cdl{background:none;border:none;color:var(--t3);cursor:pointer;font-size:.85rem;padding:4px;}
+.cdf{padding:1.2rem 1.5rem;border-top:1px solid var(--cream2);}
+.cdt{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;}
+.cdt span{font-family:'Hind Siliguri',sans-serif;font-size:.95rem;color:var(--t2);}
+.cdt strong{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--g);}
+.cck{width:100%;background:var(--g);color:white;border:none;padding:1rem;border-radius:25px;font-family:'Hind Siliguri',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;}
+.cck:hover{background:var(--g2);}
+.tst{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--g);color:white;padding:.8rem 1.5rem;border-radius:25px;font-family:'Hind Siliguri',sans-serif;font-size:.9rem;z-index:9999;white-space:nowrap;box-shadow:0 8px 25px rgba(0,0,0,.2);animation:ti .3s ease;}
+@keyframes ti{from{opacity:0;transform:translate(-50%,10px);}to{opacity:1;transform:translate(-50%,0);}}
+.rev{opacity:0;transform:translateY(25px);transition:opacity .7s,transform .7s;}
+.rev.vis{opacity:1;transform:translateY(0);}
+@media(max-width:1000px){.hero{grid-template-columns:1fr;}.hi{display:none;}.cgrid{grid-template-columns:repeat(3,1fr);}.wi{grid-template-columns:1fr;}.wcs{display:none;}.tg{grid-template-columns:1fr;}.fg{grid-template-columns:1fr 1fr;}.hbg{display:block;}.nlinks{display:none;}}
+@media(max-width:600px){.cgrid{grid-template-columns:repeat(2,1fr);}.pgrid,.hgrid{grid-template-columns:1fr 1fr;}.nf{flex-direction:column;}.fg{grid-template-columns:1fr;}.cdr{width:100%;}}
+</style>
+</head>
+<body>
+
+<div class="tb">
+  <p>🚚 ৳৯৯৯+ অর্ডারে সারা বাংলাদেশে বিনামূল্যে ডেলিভারি | একই দিনে ডেলিভারি (ঢাকা)</p>
+  <a href="https://www.facebook.com/shekorbd23" target="_blank">📘 Facebook: shekorbd23</a>
+</div>
+
+<nav>
+  <div class="ni">
+    <a href="index.html" class="nl">
+      <img src="logo.png" alt="শেকড়"/>
+      <div><div class="nbn">শেকড়</div><div class="nen">Shekor Organics</div></div>
+    </a>
+    <ul class="nlinks">
+      <li><a href="#" class="act">হোম</a></li>
+      <li><a href="#products">পণ্যসমূহ</a></li>
+      <li><a href="#honey">মধু</a></li>
+      <li><a href="#why">আমাদের কথা</a></li>
+      <li><a href="admin.html">অ্যাডমিন</a></li>
+    </ul>
+    <div class="nr">
+      <button class="icb" onclick="openCart()">🛒<span class="cb" id="cb">0</span></button>
+      <button class="bnav" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">অর্ডার করুন</button>
+    </div>
+    <button class="hbg">☰</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="ht">
+    <div class="htag">🌿 খাঁটি ও প্রাকৃতিক — shekorbd23</div>
+    <h1>মাটির কাছে ফিরে যাও,<span>প্রকৃতির সাথে বাঁচো।</span></h1>
+    <p class="herop">শেকড়ের প্রতিটি পণ্য — মধু, ঘি, তেল, সন্দেশ — সরাসরি উৎস থেকে আপনার দরজায়। কোনো ভেজাল নেই, কোনো রাসায়নিক নেই।</p>
+    <div class="hbtns">
+      <a href="#products" class="bgold">পণ্য দেখুন →</a>
+      <a href="https://www.facebook.com/shekorbd23" target="_blank" class="bwh">📘 Facebook Page</a>
+    </div>
+    <div class="hstats">
+      <div class="hs"><h3>১৫+</h3><p>ধরনের পণ্য</p></div>
+      <div class="hs"><h3>৫+</h3><p>ধরনের মধু</p></div>
+      <div class="hs"><h3>১০০%</h3><p>খাঁটি ও প্রাকৃতিক</p></div>
+    </div>
+  </div>
+  <div class="hi">
+    <img class="himain" src="images/modhu-bottle.jpg" alt="শেকড় মধু"/>
+    <div class="fc fc1"><small>বেস্টসেলার</small><strong>সুন্দরবনের মধু</strong></div>
+    <div class="fc fc2"><small>নতুন</small><strong>মাঘী সরিষার তেল</strong></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq"><div class="mqt">
+  <div class="mi">খাঁটি মধু</div><div class="mi">পাবনার ঘি</div><div class="mi">মাঘী সরিষার তেল</div><div class="mi">কালিজিরার তেল</div><div class="mi">প্যারা সন্দেশ</div><div class="mi">নারকেল তেল</div><div class="mi">আখের গুড়</div><div class="mi">বিভিন্ন খেজুর</div>
+  <div class="mi">খাঁটি মধু</div><div class="mi">পাবনার ঘি</div><div class="mi">মাঘী সরিষার তেল</div><div class="mi">কালিজিরার তেল</div><div class="mi">প্যারা সন্দেশ</div><div class="mi">নারকেল তেল</div><div class="mi">আখের গুড়</div><div class="mi">বিভিন্ন খেজুর</div>
+</div></div>
+
+<!-- CATEGORIES -->
+<section class="cats">
+  <div class="sh rev"><div class="slbl">ক্যাটাগরি</div><h2 class="st">কী খুঁজছেন?</h2></div>
+  <div class="cgrid rev">
+    <div class="ccard act" onclick="filterP('all',this)"><div class="cci">🛒</div><div class="ccn">সব পণ্য</div><div class="ccc">১৫+ আইটেম</div></div>
+    <div class="ccard" onclick="filterP('modhu',this)"><div class="cci">🍯</div><div class="ccn">মধু</div><div class="ccc">৫ ধরন</div></div>
+    <div class="ccard" onclick="filterP('ghee-tel',this)"><div class="cci">🫙</div><div class="ccn">ঘি ও তেল</div><div class="ccc">৪ ধরন</div></div>
+    <div class="ccard" onclick="filterP('mishti',this)"><div class="cci">🍮</div><div class="ccn">মিষ্টি</div><div class="ccc">২ ধরন</div></div>
+    <div class="ccard" onclick="filterP('khejur',this)"><div class="cci">🌴</div><div class="ccn">খেজুর</div><div class="ccc">৭ ধরন</div></div>
+    <div class="ccard" onclick="filterP('other',this)"><div class="cci">🌿</div><div class="ccn">অন্যান্য</div><div class="ccc">আরও পণ্য</div></div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="sec psec" id="products">
+  <div class="sh rev">
+    <div class="slbl">আমাদের পণ্য</div>
+    <h2 class="st">শেকড়ের <em>সেরা পণ্যসমূহ</em></h2>
+    <p class="ssub">সরাসরি উৎস থেকে আনা — কোনো মধ্যস্থতাকারী নেই</p>
+  </div>
+  <div class="pfilt rev">
+    <button class="pfb on" onclick="filterP('all',this)">সব</button>
+    <button class="pfb" onclick="filterP('modhu',this)">মধু</button>
+    <button class="pfb" onclick="filterP('ghee-tel',this)">ঘি ও তেল</button>
+    <button class="pfb" onclick="filterP('mishti',this)">মিষ্টি</button>
+    <button class="pfb" onclick="filterP('khejur',this)">খেজুর</button>
+    <button class="pfb" onclick="filterP('other',this)">অন্যান্য</button>
+  </div>
+  <div class="pgrid" id="pg"></div>
+</section>
+
+<!-- HONEY SECTION -->
+<section class="honey-sec" id="honey">
+  <div class="sh rev">
+    <div class="slbl">বিশেষ সংগ্রহ</div>
+    <h2 class="st" style="color:white;">শেকড়ের <em>মধু সংগ্রহ</em></h2>
+    <p class="ssub">৫ ধরনের বিশুদ্ধ মধু — সরাসরি মৌচাক থেকে আপনার কাছে</p>
+  </div>
+  <div class="hgrid rev">
+
+    <div class="hcard">
+      <div class="hci"><img src="images/modhu-bottle.jpg" alt="বড়ই ফুলের মধু"/></div>
+      <div class="hcb">
+        <div class="hcn">🌸 বড়ই ফুলের মধু</div>
+        <div class="hcd">প্রাকৃতিক বড়ই ফুল থেকে সংগ্রহ করা হালকা ও সুগন্ধী মধু</div>
+        <div class="hprices">
+          <div class="hp"><span>২৫০ গ্রাম</span><strong>৳২৫০</strong></div>
+          <div class="hp"><span>৫০০ গ্রাম</span><strong>৳৪৮০</strong></div>
+          <div class="hp"><span>১ কেজি</span><strong>৳৯০০</strong></div>
+        </div>
+        <button class="horder" onclick="addCartDirect('বড়ই ফুলের মধু','modhu','images/modhu-bottle.jpg',480,'৫০০ গ্রাম')">কার্টে যোগ করুন</button>
+      </div>
+    </div>
+
+    <div class="hcard">
+      <div class="hci"><img src="images/modhu-bottle.jpg" alt="সিরষা ফুলের মধু"/></div>
+      <div class="hcb">
+        <div class="hcn">🌼 সিরষা ফুলের মধু</div>
+        <div class="hcd">সরিষা ফুলের মৌসুমে সংগ্রহ করা হালকা রঙের বিশেষ মধু</div>
+        <div class="hprices">
+          <div class="hp"><span>৫০০ গ্রাম</span><strong>৳২৬০</strong></div>
+          <div class="hp"><span>১ কেজি</span><strong>৳৫০০</strong></div>
+        </div>
+        <button class="horder" onclick="addCartDirect('সিরষা ফুলের মধু','modhu','images/modhu-bottle.jpg',260,'৫০০ গ্রাম')">কার্টে যোগ করুন</button>
+      </div>
+    </div>
+
+    <div class="hcard">
+      <div class="hci"><img src="images/modhu-bottle.jpg" alt="লিচু ফুলের মধু"/></div>
+      <div class="hcb">
+        <div class="hcn">🍈 লিচু ফুলের মধু</div>
+        <div class="hcd">লিচু বাগান থেকে সংগ্রহ — মিষ্টি সুগন্ধ ও হালকা রঙ</div>
+        <div class="hprices">
+          <div class="hp"><span>২৫০ গ্রাম</span><strong>৳২২০</strong></div>
+          <div class="hp"><span>৫০০ গ্রাম</span><strong>৳৪০০</strong></div>
+          <div class="hp"><span>১ কেজি</span><strong>৳৭৫০</strong></div>
+        </div>
+        <button class="horder" onclick="addCartDirect('লিচু ফুলের মধু','modhu','images/modhu-bottle.jpg',400,'৫০০ গ্রাম')">কার্টে যোগ করুন</button>
+      </div>
+    </div>
+
+    <div class="hcard">
+      <div class="hci"><img src="images/modhu-bottle.jpg" alt="কালোজিরার ফুলের মধু"/></div>
+      <div class="hcb">
+        <div class="hcn">🖤 কালোজিরার ফুলের মধু</div>
+        <div class="hcd">ঔষধি গুণসম্পন্ন কালোজিরা ফুলের বিশেষ মধু — স্বাস্থ্যের জন্য সেরা</div>
+        <div class="hprices">
+          <div class="hp"><span>২৫০ গ্রাম</span><strong>৳৩৩০</strong></div>
+          <div class="hp"><span>৫০০ গ্রাম</span><strong>৳৬৩০</strong></div>
+          <div class="hp"><span>১ কেজি</span><strong>৳১২০০</strong></div>
+        </div>
+        <button class="horder" onclick="addCartDirect('কালোজিরার ফুলের মধু','modhu','images/modhu-bottle.jpg',630,'৫০০ গ্রাম')">কার্টে যোগ করুন</button>
+      </div>
+    </div>
+
+    <div class="hcard" style="border-color:rgba(212,169,64,.5);">
+      <div class="hci"><img src="images/modhu-bottle.jpg" alt="সুন্দরবনের মধু"/></div>
+      <div class="hcb">
+        <div class="hcn">🌳 সুন্দরবনের চাকের মধু</div>
+        <div class="hcd">সুন্দরবনের গভীর জঙ্গল থেকে সংগ্রহ — সবচেয়ে বিশুদ্ধ ও প্রাকৃতিক</div>
+        <div class="hprices">
+          <div class="hp"><span>২৫০ গ্রাম</span><strong>৳৪২০</strong></div>
+          <div class="hp"><span>৫০০ গ্রাম</span><strong>৳৮০০</strong></div>
+          <div class="hp"><span>১ কেজি</span><strong>৳১৫০০</strong></div>
+        </div>
+        <button class="horder" onclick="addCartDirect('সুন্দরবনের চাকের মধু','modhu','images/modhu-bottle.jpg',800,'৫০০ গ্রাম')">কার্টে যোগ করুন</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="why">
+  <div class="wi">
+    <div class="rev">
+      <div class="slbl" style="color:var(--gold);"><span style="background:var(--gold);width:20px;height:1px;display:inline-block;"></span>কেন শেকড়<span style="background:var(--gold);width:20px;height:1px;display:inline-block;"></span></div>
+      <div class="wt"><h2>শুধু প্রাকৃতিক,<br/><em>সম্পূর্ণ খাঁটি।</em></h2>
+      <p class="wtp">আমরা সরাসরি উৎস থেকে সংগ্রহ করি — কোনো মধ্যস্থতাকারী নেই। তাই দাম কম, মান বেশি।</p>
+      <div class="wfs">
+        <div class="wf"><div class="wfi">🍯</div><div><h4>সরাসরি উৎস থেকে</h4><p>মৌচাক, খামার ও বাগান থেকে সরাসরি</p></div></div>
+        <div class="wf"><div class="wfi">✅</div><div><h4>ভেজালমুক্ত গ্যারান্টি</h4><p>প্রতিটি পণ্য পরীক্ষিত</p></div></div>
+        <div class="wf"><div class="wfi">🚚</div><div><h4>সারা বাংলাদেশে</h4><p>কুরিয়ারে নিরাপদ ডেলিভারি</p></div></div>
+        <div class="wf"><div class="wfi">📞</div><div><h4>সরাসরি যোগাযোগ</h4><p>Facebook page: shekorbd23</p></div></div>
+      </div></div>
+    </div>
+    <div class="wcs rev">
+      <div class="wc"><div class="wic">🌿</div><h3>১০০% প্রাকৃতিক</h3><p>কোনো কৃত্রিম উপাদান নেই</p></div>
+      <div class="wc"><div class="wic">👨‍🌾</div><h3>সরাসরি কৃষক থেকে</h3><p>ন্যায্য মূল্য, সেরা মান</p></div>
+      <div class="wc"><div class="wic">📦</div><h3>নিরাপদ প্যাকেজিং</h3><p>ডেলিভারিতে নষ্ট হবে না</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="sec" style="background:var(--w);">
+  <div class="sh rev"><div class="slbl">গ্রাহকদের মতামত</div><h2 class="st">তারা <em>কী বলেন</em></h2></div>
+  <div class="tg rev">
+    <div class="tc"><div class="tch"><div class="tav">রা</div><div><div class="ttnm">রাহেলা বেগম</div><div class="ttlc">ঢাকা</div></div></div><div class="tsts">★★★★★</div><div class="ttxt">"শেকড়ের সুন্দরবনের মধু অসাধারণ! বাচ্চাদের দিচ্ছি নিশ্চিন্তে। দামও সঠিক।"</div></div>
+    <div class="tc"><div class="tch"><div class="tav">কা</div><div><div class="ttnm">কামরুল হাসান</div><div class="ttlc">চট্টগ্রাম</div></div></div><div class="tsts">★★★★★</div><div class="ttxt">"পাবনার ঘি খেয়ে বুঝলাম আসল ঘির স্বাদ কী। অনেক দিন পর এত ভালো ঘি পেলাম।"</div></div>
+    <div class="tc"><div class="tch"><div class="tav">না</div><div><div class="ttnm">নাসরিন আক্তার</div><div class="ttlc">সিলেট</div></div></div><div class="tsts">★★★★★</div><div class="ttxt">"প্যারা সন্দেশ মুখে দিয়ে মনে হলো বাড়িতে তৈরি। এরকম মিষ্টি আজকাল পাওয়া কঠিন!"</div></div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="ns">
+  <div class="slbl" style="color:var(--gold);justify-content:center;">যোগাযোগ করুন</div>
+  <h2>অর্ডার ও তথ্যের জন্য <em>Facebook-এ আসুন</em></h2>
+  <p class="nsp">নতুন পণ্য, অফার ও আপডেটের জন্য আমাদের Facebook page follow করুন।</p>
+  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+    <a href="https://www.facebook.com/shekorbd23" target="_blank" class="bgold" style="display:inline-flex;align-items:center;gap:.5rem;">📘 Facebook: shekorbd23</a>
+    <a href="tel:+8801700000000" class="bwh" style="display:inline-flex;align-items:center;gap:.5rem;">📞 কল করুন</a>
+  </div>
+  <p style="color:rgba(255,255,255,.5);font-size:.85rem;margin-top:2rem;font-family:'Hind Siliguri',sans-serif;">অথবা ইমেইল সাবস্ক্রাইব করুন:</p>
+  <form class="nf" style="margin-top:.8rem;" onsubmit="subN(event)">
+    <input type="email" placeholder="আপনার ইমেইল..." required/>
+    <button type="submit">সাবস্ক্রাইব</button>
+  </form>
+</section>
+
+<footer>
+  <div class="fg">
+    <div class="fb">
+      <img src="logo.png" alt="শেকড়"/>
+      <h3>শেকড় অর্গানিকস</h3>
+      <p>খাঁটি মধু, ঘি, তেল ও প্রাকৃতিক খাদ্যপণ্যের বিশ্বস্ত উৎস। সরাসরি উৎস থেকে আপনার দরজায়।</p>
+      <div class="fsc">
+        <a href="https://www.facebook.com/shekorbd23" target="_blank" class="fsb">FB</a>
+        <a href="#" class="fsb">IG</a>
+        <a href="#" class="fsb">YT</a>
+        <a href="#" class="fsb">WA</a>
+      </div>
+    </div>
+    <div class="fcl"><h5>পণ্য</h5><ul>
+      <li><a href="#honey">মধু সংগ্রহ</a></li>
+      <li><a href="#products">ঘি ও তেল</a></li>
+      <li><a href="#products">প্যারা সন্দেশ</a></li>
+      <li><a href="#products">খেজুর</a></li>
+      <li><a href="#products">আখের গুড়</a></li>
+    </ul></div>
+    <div class="fcl"><h5>লিংক</h5><ul>
+      <li><a href="#">আমাদের কথা</a></li>
+      <li><a href="https://www.facebook.com/shekorbd23" target="_blank">Facebook Page</a></li>
+      <li><a href="admin.html">অ্যাডমিন প্যানেল</a></li>
+    </ul></div>
+    <div class="fcl"><h5>যোগাযোগ</h5><ul>
+      <li><a href="https://www.facebook.com/shekorbd23">Facebook Message</a></li>
+      <li><a href="tel:+8801700000000">01700-000000</a></li>
+      <li><a href="#">সারা বাংলাদেশে ডেলিভারি</a></li>
+    </ul></div>
+  </div>
+  <div class="fbt">
+    <span>© ২০২৫ শেকড় অর্গানিকস। সর্বস্বত্ব সংরক্ষিত।</span>
+    <div class="fpay"><span>bKash</span><span>Nagad</span><span>Rocket</span><span>COD</span></div>
+  </div>
+</footer>
+
+<div class="cov" id="cov" onclick="closeCart()"></div>
+<div class="cdr" id="cdr">
+  <div class="cdh"><h3>🛒 আমার কার্ট</h3><button class="cdc" onclick="closeCart()">✕</button></div>
+  <div class="cdit" id="cdit"><div class="cdem"><p style="font-size:2rem">🛒</p><p>কার্ট খালি আছে</p></div></div>
+  <div class="cdf"><div class="cdt"><span>মোট:</span><strong id="cdt">৳০</strong></div><button class="cck" onclick="checkout()">অর্ডার করুন →</button></div>
+</div>
+
+<script>
+const P=[
+  // মধু
+  {id:1,name:'বড়ই ফুলের মধু',cat:'modhu',img:'images/modhu-bottle.jpg',wt:'৫০০ গ্রাম',price:480,old:null,rat:4.9,rv:87,badge:'খাঁটি মধু',sizes:[{s:'২৫০ গ্রাম',p:250},{s:'৫০০ গ্রাম',p:480},{s:'১ কেজি',p:900}]},
+  {id:2,name:'সিরষা ফুলের মধু',cat:'modhu',img:'images/modhu-bottle.jpg',wt:'৫০০ গ্রাম',price:260,old:null,rat:4.8,rv:62,badge:'মৌসুমী মধু',sizes:[{s:'৫০০ গ্রাম',p:260},{s:'১ কেজি',p:500}]},
+  {id:3,name:'লিচু ফুলের মধু',cat:'modhu',img:'images/modhu-bottle.jpg',wt:'৫০০ গ্রাম',price:400,old:null,rat:4.9,rv:103,badge:'সুগন্ধী',sizes:[{s:'২৫০ গ্রাম',p:220},{s:'৫০০ গ্রাম',p:400},{s:'১ কেজি',p:750}]},
+  {id:4,name:'কালোজিরার ফুলের মধু',cat:'modhu',img:'images/modhu-bottle.jpg',wt:'৫০০ গ্রাম',price:630,old:null,rat:5.0,rv:54,badge:'ঔষধি',sizes:[{s:'২৫০ গ্রাম',p:330},{s:'৫০০ গ্রাম',p:630},{s:'১ কেজি',p:1200}]},
+  {id:5,name:'সুন্দরবনের চাকের মধু',cat:'modhu',img:'images/modhu-bottle.jpg',wt:'৫০০ গ্রাম',price:800,old:null,rat:5.0,rv:129,badge:'বেস্টসেলার',sizes:[{s:'২৫০ গ্রাম',p:420},{s:'৫০০ গ্রাম',p:800},{s:'১ কেজি',p:1500}]},
+  // ঘি ও তেল
+  {id:6,name:'পাবনার গাওয়া ঘি',cat:'ghee-tel',img:'images/ghee.jpg',wt:'৫০০ গ্রাম',price:800,old:null,rat:4.9,rv:74,badge:'খাঁটি ঘি',sizes:[{s:'২৫০ গ্রাম',p:420},{s:'৫০০ গ্রাম',p:800},{s:'১ কেজি',p:1600}]},
+  {id:7,name:'পাবনার সেরের ঘি',cat:'ghee-tel',img:'images/ghee.jpg',wt:'৫০০ গ্রাম',price:900,old:null,rat:4.8,rv:45,badge:'প্রিমিয়াম',sizes:[{s:'২৫০ গ্রাম',p:480},{s:'৫০০ গ্রাম',p:900},{s:'১ কেজি',p:1800}]},
+  {id:8,name:'মাঘী সরিষার তেল',cat:'ghee-tel',img:'images/sorshar-tel.jpg',wt:'১ লিটার',price:320,old:null,rat:4.9,rv:156,badge:'ঘানি ভাঙা',sizes:[{s:'২৫০ মিলি',p:85},{s:'৫০০ মিলি',p:160},{s:'১ লিটার',p:320},{s:'৫ লিটার',p:1500}]},
+  {id:9,name:'Extra Virgin নারকেল তেল',cat:'ghee-tel',img:'images/coconut-oil.jpg',wt:'৫০০ মিলি',price:820,old:null,rat:4.8,rv:38,badge:'Cold Pressed',sizes:[{s:'২৫০ মিলি',p:410},{s:'৫০০ মিলি',p:820},{s:'১ লিটার',p:1600}]},
+  {id:10,name:'কালিজিরার তেল',cat:'ghee-tel',img:'images/kalojira-tel.jpg',wt:'১৫০ মিলি',price:320,old:null,rat:4.9,rv:91,badge:'ঔষধি',sizes:[{s:'৭৫ মিলি',p:180},{s:'১৫০ মিলি',p:320},{s:'২৫০ মিলি',p:520},{s:'৫০০ মিলি',p:1020}]},
+  // মিষ্টি
+  {id:11,name:'প্যারা সন্দেশ',cat:'mishti',img:'images/para-sandesh.jpg',wt:'৫০০ গ্রাম',price:320,old:null,rat:4.9,rv:203,badge:'ঐতিহ্যবাহী',sizes:[{s:'২৫০ গ্রাম',p:160},{s:'৫০০ গ্রাম',p:320},{s:'১ কেজি',p:600}]},
+  {id:12,name:'আখের গুড়ের পাউডার',cat:'other',img:'images/akher-gur.jpg',wt:'১ কেজি',price:300,old:null,rat:4.8,rv:67,badge:'প্রাকৃতিক',sizes:[{s:'৫০০ গ্রাম',p:160},{s:'১ কেজি',p:300}]},
+  // খেজুর
+  {id:13,name:'সাভারী/কলমী খেজুর',cat:'khejur',img:'images/khejur.jpg',wt:'৫০০ গ্রাম',price:430,old:null,rat:4.7,rv:29,badge:'ইম্পোর্টেড',sizes:[{s:'২৫০ গ্রাম',p:220},{s:'৫০০ গ্রাম',p:430},{s:'১ কেজি',p:800}]},
+  {id:14,name:'ইরানি মরিয়ম খেজুর',cat:'khejur',img:'images/khejur.jpg',wt:'৫০০ গ্রাম',price:670,old:null,rat:4.8,rv:41,badge:'প্রিমিয়াম',sizes:[{s:'২৫০ গ্রাম',p:340},{s:'৫০০ গ্রাম',p:670},{s:'১ কেজি',p:1300}]},
+  {id:15,name:'মেডজুল লার্জ খেজুর',cat:'khejur',img:'images/khejur.jpg',wt:'৫০০ গ্রাম',price:1030,old:null,rat:4.9,rv:56,badge:'সেরা মানের',sizes:[{s:'২৫০ গ্রাম',p:520},{s:'৫০০ গ্রাম',p:1030},{s:'১ কেজি',p:2000}]},
+  // other
+  {id:16,name:'সেমাই গিফট বক্স',cat:'other',img:'images/semai-box.jpg',wt:'প্রতি বক্স',price:350,old:null,rat:4.8,rv:33,badge:'গিফট',sizes:[{s:'ছোট বক্স',p:350},{s:'বড় বক্স',p:600}]},
+];
+
+let cart=JSON.parse(localStorage.getItem('sCart')||'[]');
+let selectedSizes={};
+
+function stars(r){return'★'.repeat(Math.floor(r))+'☆'.repeat(5-Math.floor(r));}
+
+function rP(f){
+  const g=document.getElementById('pg');
+  const list=f==='all'?P:P.filter(p=>p.cat===f);
+  g.innerHTML=list.map(p=>{
+    const defSz=p.sizes[1]||p.sizes[0];
+    selectedSizes[p.id]=defSz;
+    return `<div class="pcard">
+      <div class="pci"><img src="${p.img}" alt="${p.name}" loading="lazy"/><div class="pbdg">${p.badge}</div></div>
+      <div class="pcb">
+        <div class="pcat">${p.cat}</div>
+        <div class="pnm">${p.name}</div>
+        <div class="psizes" id="sz-${p.id}">${p.sizes.map((s,i)=>`<button class="sz${i===1||p.sizes.length===1?i===0?' sel':' sel':''}" onclick="selSz(${p.id},${i},this)">${s.s}</button>`).join('')}</div>
+        <div class="prat"><span class="pst">${stars(p.rat)}</span><span class="prc">(${p.rv})</span></div>
+        <div class="pft"><div class="pprw"><span class="ppr" id="pr-${p.id}">৳${defSz.p}</span></div>
+        <button class="padd" onclick="aC(${p.id})">+ কার্টে</button></div>
+      </div></div>`;
+  }).join('');
+}
+
+function selSz(id,idx,btn){
+  const p=P.find(x=>x.id===id);
+  document.querySelectorAll(`#sz-${id} .sz`).forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  selectedSizes[id]=p.sizes[idx];
+  document.getElementById('pr-'+id).textContent='৳'+p.sizes[idx].p;
+}
+
+function filterP(f,el){
+  document.querySelectorAll('.pfb,.ccard').forEach(b=>b.classList.remove('on','act'));
+  if(el){el.classList.add(el.classList.contains('pfb')?'on':'act');}
+  rP(f);
+}
+
+function aC(id){
+  const p=P.find(x=>x.id===id);
+  const sz=selectedSizes[id]||p.sizes[0];
+  const key=id+'-'+sz.s;
+  const ex=cart.find(x=>x.key===key);
+  if(ex)ex.qty++;
+  else cart.push({key,id,name:p.name,sz:sz.s,price:sz.p,img:p.img,qty:1});
+  sC();uB();rC2();toast('✓ '+p.name+' ('+sz.s+') কার্টে যোগ হয়েছে');
+}
+
+function addCartDirect(name,cat,img,price,sz){
+  const key=name+'-'+sz;
+  const ex=cart.find(x=>x.key===key);
+  if(ex)ex.qty++;
+  else cart.push({key,id:Date.now(),name,sz,price,img,qty:1});
+  sC();uB();rC2();openCart();toast('✓ '+name+' কার্টে যোগ হয়েছে');
+}
+
+function rCart(k){cart=cart.filter(x=>x.key!==k);sC();uB();rC2();}
+function cQ(k,d){const i=cart.find(x=>x.key===k);if(i){i.qty+=d;if(i.qty<=0)cart=cart.filter(x=>x.key!==k);}sC();uB();rC2();}
+function sC(){localStorage.setItem('sCart',JSON.stringify(cart));}
+function uB(){document.getElementById('cb').textContent=cart.reduce((s,x)=>s+x.qty,0);}
+
+function rC2(){
+  const el=document.getElementById('cdit');
+  const tot=cart.reduce((s,x)=>s+x.price*x.qty,0);
+  document.getElementById('cdt').textContent='৳'+tot.toLocaleString('bn-BD');
+  if(!cart.length){el.innerHTML='<div class="cdem"><p style="font-size:2rem">🛒</p><p>কার্ট খালি আছে</p></div>';return;}
+  el.innerHTML=cart.map(x=>`<div class="ci">
+    <div class="cii"><img src="${x.img}" alt="${x.name}"/></div>
+    <div style="flex:1">
+      <div class="cin">${x.name}</div>
+      <div class="cisz">${x.sz}</div>
+      <div class="cip">৳${x.price}</div>
+      <div class="ciq"><button class="qb" onclick="cQ('${x.key}',-1)">−</button><span class="qn">${x.qty}</span><button class="qb" onclick="cQ('${x.key}',1)">+</button><button class="cdl" onclick="rCart('${x.key}')">🗑</button></div>
+    </div>
+    <strong style="color:var(--g);font-family:'Playfair Display',serif">৳${x.price*x.qty}</strong>
+  </div>`).join('');
+}
+
+function openCart(){document.getElementById('cdr').classList.add('op');document.getElementById('cov').classList.add('op');}
+function closeCart(){document.getElementById('cdr').classList.remove('op');document.getElementById('cov').classList.remove('op');}
+
+function checkout(){
+  if(!cart.length){toast('কার্ট খালি!');return;}
+  const tot=cart.reduce((s,x)=>s+x.price*x.qty,0);
+  const items=cart.map(x=>`${x.name} (${x.sz}) x${x.qty} = ৳${x.price*x.qty}`).join('\n');
+  window.open(`https://www.facebook.com/shekorbd23`,'_blank');
+  alert(`অর্ডার সারসংক্ষেপ:\n\n${items}\n\nমোট: ৳${tot}\n\nআমাদের Facebook page এ message করুন: facebook.com/shekorbd23`);
+}
+
+function toast(m){const d=document.createElement('div');d.className='tst';d.textContent=m;document.body.appendChild(d);setTimeout(()=>d.remove(),2500);}
+function subN(e){e.preventDefault();toast('🌿 সাবস্ক্রাইব হয়েছে!');}
+
+const obs=new IntersectionObserver(es=>{es.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('vis'),i*80);});},{threshold:.1});
+document.querySelectorAll('.rev').forEach(el=>obs.observe(el));
+
+rP('all');uB();rC2();
+</script>
+</body>
+</html>

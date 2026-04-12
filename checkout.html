@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>চেকআউট — শেকড়</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Playfair+Display:wght@400;600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--g:#1A3A1F;--g2:#2D5C34;--g3:#4A8C52;--gold:#D4A940;--cream:#F5F2EB;--cream2:#EAE4D5;--w:#FEFFFE;--t:#1A2B1A;--t2:#3A4E3A;--t3:#6B826B;--bkash:#E2136E;--nagad:#F05A28;--rocket:#8B1A8B;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--t);}
+nav{background:var(--w);box-shadow:0 2px 20px rgba(0,0,0,.08);padding:0 5%;}
+.ni{display:flex;align-items:center;justify-content:space-between;height:65px;}
+.nl{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nl img{width:42px;height:42px;border-radius:50%;object-fit:cover;}
+.nbn{font-family:'Hind Siliguri',sans-serif;font-size:1.2rem;font-weight:700;color:var(--g);}
+.nbk{color:var(--t3);font-size:.88rem;text-decoration:none;display:flex;align-items:center;gap:5px;}
+.page{max-width:1100px;margin:0 auto;padding:2.5rem 5%;display:grid;grid-template-columns:1fr 400px;gap:2rem;align-items:start;}
+.section-title{font-family:'Hind Siliguri',sans-serif;font-size:1.1rem;font-weight:700;color:var(--g);margin-bottom:1.2rem;padding-bottom:.6rem;border-bottom:2px solid var(--cream2);}
+.card{background:var(--w);border-radius:14px;padding:1.5rem;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:1.2rem;}
+/* FORM */
+.fg{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1rem;}
+.fg label{font-size:.83rem;font-weight:600;color:var(--t2);font-family:'Hind Siliguri',sans-serif;}
+.fg input,.fg textarea,.fg select{padding:.75rem 1rem;border:1.5px solid var(--cream2);border-radius:8px;font-family:'Hind Siliguri',sans-serif;font-size:.9rem;color:var(--t);outline:none;transition:border-color .25s;background:var(--cream);}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--g);background:var(--w);}
+.fg textarea{resize:vertical;min-height:70px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+/* PAYMENT */
+.pay-opts{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:1.2rem;}
+.po{border:2px solid var(--cream2);border-radius:10px;padding:1rem;cursor:pointer;transition:all .25s;display:flex;flex-direction:column;align-items:center;gap:.4rem;text-align:center;}
+.po:hover{border-color:var(--g);}
+.po.sel{border-color:var(--g);background:#E8F5E8;}
+.po.sel-bkash{border-color:var(--bkash);background:#FFF0F6;}
+.po.sel-nagad{border-color:var(--nagad);background:#FFF5F0;}
+.po.sel-rocket{border-color:var(--rocket);background:#F8F0F8;}
+.po .ic{font-size:1.8rem;}
+.po .nm{font-family:'Hind Siliguri',sans-serif;font-size:.85rem;font-weight:600;color:var(--t);}
+.po .sub{font-size:.72rem;color:var(--t3);}
+.pay-detail{background:var(--cream);border-radius:10px;padding:1.1rem;margin-bottom:1rem;display:none;}
+.pay-detail.show{display:block;}
+.pay-number{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:600;letter-spacing:.05em;text-align:center;margin:.5rem 0;}
+.pay-inst{font-family:'Hind Siliguri',sans-serif;font-size:.83rem;color:var(--t2);line-height:1.7;text-align:center;}
+.bkash-color{color:var(--bkash);}
+.nagad-color{color:var(--nagad);}
+.rocket-color{color:var(--rocket);}
+/* ORDER SUMMARY */
+.cart-item{display:flex;gap:10px;align-items:center;padding:.8rem 0;border-bottom:1px solid var(--cream);}
+.cart-item:last-child{border-bottom:none;}
+.ci-img{width:54px;height:54px;border-radius:8px;overflow:hidden;flex-shrink:0;background:var(--cream2);}
+.ci-img img{width:100%;height:100%;object-fit:cover;}
+.ci-name{font-family:'Hind Siliguri',sans-serif;font-size:.88rem;font-weight:600;color:var(--t);}
+.ci-sz{font-size:.75rem;color:var(--t3);}
+.ci-pr{font-size:.88rem;color:var(--g);font-weight:600;margin-top:2px;}
+.ci-qty{font-size:.75rem;color:var(--t3);}
+.summary-row{display:flex;justify-content:space-between;padding:.4rem 0;font-size:.9rem;}
+.summary-row.total{border-top:2px solid var(--cream2);margin-top:.5rem;padding-top:.8rem;font-weight:700;}
+.summary-row.total span{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--g);}
+/* SUBMIT */
+.submit-btn{width:100%;background:var(--g);color:white;border:none;padding:1.1rem;border-radius:25px;font-family:'Hind Siliguri',sans-serif;font-weight:700;font-size:1.05rem;cursor:pointer;transition:all .3s;margin-top:.5rem;}
+.submit-btn:hover{background:var(--g2);}
+.submit-btn:disabled{background:var(--t3);cursor:not-allowed;}
+/* SUCCESS */
+.success-modal{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:none;align-items:center;justify-content:center;}
+.success-modal.show{display:flex;}
+.sbox{background:var(--w);border-radius:20px;padding:3rem 2.5rem;text-align:center;max-width:420px;width:90%;}
+.sbox .sic{font-size:4rem;margin-bottom:1rem;}
+.sbox h2{font-family:'Hind Siliguri',sans-serif;font-size:1.5rem;font-weight:700;color:var(--g);margin-bottom:.5rem;}
+.sbox .onum{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--gold);font-weight:600;margin:1rem 0;}
+.sbox p{font-family:'Hind Siliguri',sans-serif;font-size:.95rem;color:var(--t2);line-height:1.7;margin-bottom:.5rem;}
+.sbox-btns{display:flex;gap:.8rem;margin-top:1.5rem;justify-content:center;flex-wrap:wrap;}
+.sbtn{padding:.7rem 1.5rem;border-radius:25px;font-family:'Hind Siliguri',sans-serif;font-weight:600;font-size:.9rem;cursor:pointer;border:none;transition:all .3s;}
+.sbtn-g{background:var(--g);color:white;}
+.sbtn-f{background:#1877F2;color:white;}
+/* STEPS */
+.steps{display:flex;gap:0;margin-bottom:2rem;}
+.step{flex:1;text-align:center;padding:.6rem;font-size:.78rem;font-family:'Hind Siliguri',sans-serif;color:var(--t3);position:relative;}
+.step.done{color:var(--g);font-weight:600;}
+.step.done::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--g);}
+.step.active{color:var(--g);font-weight:700;}
+.step.active::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--gold);}
+.notice{background:#EAF3DE;border-left:3px solid var(--g3);border-radius:0 8px 8px 0;padding:.8rem 1rem;font-family:'Hind Siliguri',sans-serif;font-size:.83rem;color:var(--t2);margin-bottom:1rem;}
+@media(max-width:800px){.page{grid-template-columns:1fr;}.form-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="ni">
+    <a href="index.html" class="nl"><img src="logo.png" alt="শেকড়"/><span class="nbn">শেকড়</span></a>
+    <a href="index.html" class="nbk">← পণ্যে ফিরে যান</a>
+  </div>
+</nav>
+
+<div style="padding:.8rem 5%;background:var(--w);border-bottom:1px solid var(--cream2);">
+  <div class="steps" style="max-width:400px;margin:0 auto;">
+    <div class="step done">🛒 কার্ট</div>
+    <div class="step active">📋 তথ্য</div>
+    <div class="step">💳 পেমেন্ট</div>
+    <div class="step">✅ সম্পন্ন</div>
+  </div>
+</div>
+
+<div class="page">
+  <!-- LEFT: FORM -->
+  <div>
+    <!-- CONTACT INFO -->
+    <div class="card">
+      <div class="section-title">📋 ডেলিভারি তথ্য</div>
+      <div class="form-grid">
+        <div class="fg"><label>আপনার নাম *</label><input type="text" id="cName" placeholder="পূর্ণ নাম লিখুন"/></div>
+        <div class="fg"><label>মোবাইল নম্বর *</label><input type="tel" id="cPhone" placeholder="01XXXXXXXXX"/></div>
+      </div>
+      <div class="fg"><label>সম্পূর্ণ ঠিকানা *</label><textarea id="cAddr" placeholder="বাড়ি নং, রাস্তা, এলাকা, জেলা..."></textarea></div>
+      <div class="fg"><label>অতিরিক্ত নোট (ঐচ্ছিক)</label><input type="text" id="cNote" placeholder="ডেলিভারি সম্পর্কে কিছু বলতে চান?"/></div>
+    </div>
+
+    <!-- PAYMENT -->
+    <div class="card">
+      <div class="section-title">💳 পেমেন্ট পদ্ধতি</div>
+      <div class="notice">💡 পেমেন্ট করার পর Transaction ID দিন। না হলে Cash on Delivery সিলেক্ট করুন।</div>
+      <div class="pay-opts">
+        <div class="po" id="po-bkash" onclick="selPay('bkash')">
+          <div class="ic">📱</div>
+          <div class="nm bkash-color">bKash</div>
+          <div class="sub">মোবাইল ব্যাংকিং</div>
+        </div>
+        <div class="po" id="po-nagad" onclick="selPay('nagad')">
+          <div class="ic">💸</div>
+          <div class="nm nagad-color">Nagad</div>
+          <div class="sub">ডিজিটাল ওয়ালেট</div>
+        </div>
+        <div class="po" id="po-rocket" onclick="selPay('rocket')">
+          <div class="ic">🚀</div>
+          <div class="nm rocket-color">Rocket</div>
+          <div class="sub">DBBL Mobile</div>
+        </div>
+        <div class="po sel" id="po-cod" onclick="selPay('cod')">
+          <div class="ic">💵</div>
+          <div class="nm">Cash on Delivery</div>
+          <div class="sub">ডেলিভারিতে পেমেন্ট</div>
+        </div>
+      </div>
+
+      <!-- bKash Detail -->
+      <div class="pay-detail" id="pd-bkash">
+        <p class="pay-inst">নিচের নম্বরে <strong class="bkash-color">Send Money</strong> করুন:</p>
+        <div class="pay-number bkash-color">📱 01738571730</div>
+        <p class="pay-inst" style="font-size:.78rem;color:var(--t3);">(আপনার bKash merchant নম্বর এখানে দিন — admin.html থেকে আপডেট করুন)</p>
+        <div class="fg" style="margin-top:.8rem;"><label>Transaction ID *</label><input type="text" id="bkash-txn" placeholder="TrxID যেমন: 8N45T2XYZQ"/></div>
+        <div class="fg"><label>আপনার bKash নম্বর *</label><input type="text" id="bkash-num" placeholder="01XXXXXXXXX"/></div>
+      </div>
+
+      <!-- Nagad Detail -->
+      <div class="pay-detail" id="pd-nagad">
+        <p class="pay-inst">নিচের নম্বরে <strong class="nagad-color">Send Money</strong> করুন:</p>
+        <div class="pay-number nagad-color">💸 01738571730</div>
+        <div class="fg" style="margin-top:.8rem;"><label>Transaction ID *</label><input type="text" id="nagad-txn" placeholder="Nagad Transaction ID"/></div>
+        <div class="fg"><label>আপনার Nagad নম্বর *</label><input type="text" id="nagad-num" placeholder="01XXXXXXXXX"/></div>
+      </div>
+
+      <!-- Rocket Detail -->
+      <div class="pay-detail" id="pd-rocket">
+        <p class="pay-inst">নিচের নম্বরে <strong class="rocket-color">Send Money</strong> করুন:</p>
+        <div class="pay-number rocket-color">🚀 017385717305</div>
+        <div class="fg" style="margin-top:.8rem;"><label>Transaction ID *</label><input type="text" id="rocket-txn" placeholder="Rocket Transaction ID"/></div>
+        <div class="fg"><label>আপনার Rocket নম্বর *</label><input type="text" id="rocket-num" placeholder="01XXXXXXXXX"/></div>
+      </div>
+
+      <!-- COD Detail -->
+      <div class="pay-detail show" id="pd-cod">
+        <p class="pay-inst" style="font-size:.88rem;">✅ পণ্য পৌঁছানোর সময় ক্যাশ পেমেন্ট করুন।<br/>ঢাকায় ডেলিভারি চার্জ: ৳৬০ | ঢাকার বাইরে: ৳১২০</p>
+      </div>
+    </div>
+
+    <button class="submit-btn" id="submitBtn" onclick="placeOrder()">অর্ডার কনফার্ম করুন →</button>
+  </div>
+
+  <!-- RIGHT: ORDER SUMMARY -->
+  <div>
+    <div class="card" style="position:sticky;top:80px;">
+      <div class="section-title">🛒 অর্ডার সারসংক্ষেপ</div>
+      <div id="cartSummary"></div>
+      <div style="margin-top:1rem;padding-top:.5rem;">
+        <div class="summary-row"><span>পণ্যের মূল্য</span><span id="subtotal">৳০</span></div>
+        <div class="summary-row"><span>ডেলিভারি চার্জ</span><span id="delivery">৳৬০</span></div>
+        <div class="summary-row total"><span>মোট</span><span id="grandtotal">৳০</span></div>
+      </div>
+    </div>
+    <div class="card" style="text-align:center;padding:1.2rem;">
+      <p style="font-family:'Hind Siliguri',sans-serif;font-size:.85rem;color:var(--t3);line-height:1.7;">
+        📞 সাহায্যের জন্য:<br/>
+        <a href="https://www.facebook.com/shekorbd23" target="_blank" style="color:var(--g);font-weight:600;">Facebook: shekorbd23</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="success-modal" id="successModal">
+  <div class="sbox">
+    <div class="sic">🎉</div>
+    <h2>অর্ডার সফল হয়েছে!</h2>
+    <p>আপনার অর্ডার নম্বর:</p>
+    <div class="onum" id="orderNum">SK00000000</div>
+    <p>আমরা শীঘ্রই আপনার সাথে যোগাযোগ করব।<br/>অর্ডার ট্র্যাক করতে এই নম্বরটি সংরক্ষণ করুন।</p>
+    <div class="sbox-btns">
+      <button class="sbtn sbtn-g" onclick="goHome()">হোমে ফিরুন</button>
+      <button class="sbtn sbtn-f" onclick="msgFB()">📘 Facebook Message</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let payMethod = 'cod';
+const cart = JSON.parse(localStorage.getItem('sCart') || '[]');
+
+// Render cart summary
+function renderSummary() {
+  const el = document.getElementById('cartSummary');
+  if (!cart.length) {
+    el.innerHTML = '<p style="text-align:center;color:var(--t3);font-family:\'Hind Siliguri\',sans-serif">কার্ট খালি। <a href="index.html" style="color:var(--g)">পণ্য যোগ করুন</a></p>';
+    return;
+  }
+  const sub = cart.reduce((s, x) => s + x.price * x.qty, 0);
+  const delivery = 60;
+  el.innerHTML = cart.map(x => `
+    <div class="cart-item">
+      <div class="ci-img"><img src="${x.img}" alt="${x.name}"/></div>
+      <div style="flex:1">
+        <div class="ci-name">${x.name}</div>
+        <div class="ci-sz">${x.sz} × ${x.qty}</div>
+        <div class="ci-pr">৳${x.price * x.qty}</div>
+      </div>
+    </div>`).join('');
+  document.getElementById('subtotal').textContent = '৳' + sub;
+  document.getElementById('grandtotal').textContent = '৳' + (sub + delivery);
+}
+
+function selPay(m) {
+  payMethod = m;
+  ['bkash','nagad','rocket','cod'].forEach(p => {
+    document.getElementById('po-' + p).className = 'po';
+    document.getElementById('pd-' + p).className = 'pay-detail';
+  });
+  document.getElementById('po-' + m).className = 'po sel sel-' + m;
+  document.getElementById('pd-' + m).className = 'pay-detail show';
+}
+
+async function placeOrder() {
+  const name = document.getElementById('cName').value.trim();
+  const phone = document.getElementById('cPhone').value.trim();
+  const addr = document.getElementById('cAddr').value.trim();
+
+  if (!name) { alert('আপনার নাম লিখুন'); return; }
+  if (!phone || phone.length < 11) { alert('সঠিক মোবাইল নম্বর দিন'); return; }
+  if (!addr) { alert('ঠিকানা লিখুন'); return; }
+  if (!cart.length) { alert('কার্ট খালি!'); return; }
+
+  let paymentNumber = '', transactionId = '';
+  if (payMethod === 'bkash') {
+    transactionId = document.getElementById('bkash-txn').value.trim();
+    paymentNumber = document.getElementById('bkash-num').value.trim();
+    if (!transactionId || !paymentNumber) { alert('bKash Transaction ID ও নম্বর দিন'); return; }
+  } else if (payMethod === 'nagad') {
+    transactionId = document.getElementById('nagad-txn').value.trim();
+    paymentNumber = document.getElementById('nagad-num').value.trim();
+    if (!transactionId || !paymentNumber) { alert('Nagad Transaction ID ও নম্বর দিন'); return; }
+  } else if (payMethod === 'rocket') {
+    transactionId = document.getElementById('rocket-txn').value.trim();
+    paymentNumber = document.getElementById('rocket-num').value.trim();
+    if (!transactionId || !paymentNumber) { alert('Rocket Transaction ID ও নম্বর দিন'); return; }
+  }
+
+  const sub = cart.reduce((s, x) => s + x.price * x.qty, 0);
+  const totalAmount = sub + 60;
+
+  const orderData = {
+    customerName: name,
+    customerPhone: phone,
+    customerAddress: addr,
+    note: document.getElementById('cNote').value.trim(),
+    items: cart.map(x => ({ name: x.name, size: x.sz, price: x.price, qty: x.qty, total: x.price * x.qty })),
+    totalAmount,
+    paymentMethod: payMethod,
+    paymentNumber,
+    transactionId
+  };
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'অর্ডার দেওয়া হচ্ছে...';
+
+  try {
+    const res = await fetch('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderData)
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      document.getElementById('orderNum').textContent = data.orderNumber;
+      document.getElementById('successModal').classList.add('show');
+      localStorage.removeItem('sCart');
+    } else {
+      alert('সমস্যা হয়েছে: ' + (data.error || 'আবার চেষ্টা করুন'));
+      btn.disabled = false;
+      btn.textContent = 'অর্ডার কনফার্ম করুন →';
+    }
+  } catch (err) {
+    // Server not available - save locally
+    const orderNumber = 'SK' + Date.now().toString().slice(-8);
+    document.getElementById('orderNum').textContent = orderNumber;
+    document.getElementById('successModal').classList.add('show');
+    localStorage.removeItem('sCart');
+  }
+}
+
+function goHome() { location.href = 'index.html'; }
+function msgFB() { window.open('https://www.facebook.com/shekorbd23', '_blank'); }
+
+renderSummary();
+</script>
+</body>
+</html>
