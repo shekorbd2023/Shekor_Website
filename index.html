@@ -474,7 +474,13 @@ footer{background:#1A1208;color:rgba(255,255,255,.6);padding:4.5rem 5% 2rem;}
 </div>
 
 <script>
-const P=[
+// ── আগে admin panel থেকে data নাও, না পেলে default use করো ──
+function getProducts(){
+  const saved = localStorage.getItem('shekorProds');
+  if(saved){try{return JSON.parse(saved);}catch{}}
+  return defaultProducts;
+}
+const defaultProducts=[
   // মধু
   {id:1,name:'বড়ই ফুলের মধু',cat:'modhu',img:'images/modhu-bottle.jpg',wt:'৫০০ গ্রাম',price:480,old:null,rat:4.9,rv:87,badge:'খাঁটি মধু',sizes:[{s:'২৫০ গ্রাম',p:250},{s:'৫০০ গ্রাম',p:480},{s:'১ কেজি',p:900}]},
   {id:2,name:'সিরষা ফুলের মধু',cat:'modhu',img:'images/modhu-bottle.jpg',wt:'৫০০ গ্রাম',price:260,old:null,rat:4.8,rv:62,badge:'মৌসুমী মধু',sizes:[{s:'৫০০ গ্রাম',p:260},{s:'১ কেজি',p:500}]},
@@ -504,6 +510,9 @@ let selectedSizes={};
 function stars(r){return'★'.repeat(Math.floor(r))+'☆'.repeat(5-Math.floor(r));}
 
 function rP(f){
+  // Always get fresh data from admin panel
+  const freshP = getProducts();
+  freshP.forEach(fp => { const orig = P.find(p=>p.id===fp.id); if(orig && fp.img) orig.img=fp.img; if(orig && fp.sizes) orig.sizes=fp.sizes; });
   const g=document.getElementById('pg');
   const list=f==='all'?P:P.filter(p=>p.cat===f);
   g.innerHTML=list.map(p=>{
@@ -593,7 +602,30 @@ function subN(e){e.preventDefault();toast('🌿 সাবস্ক্রাই�
 const obs=new IntersectionObserver(es=>{es.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('vis'),i*80);});},{threshold:.1});
 document.querySelectorAll('.rev').forEach(el=>obs.observe(el));
 
-rP('all');uB();rC2();
+// Server থেকে ছবি ও দাম লোড করো
+async function loadServerData(){
+  try{
+    const res = await fetch('/api/products/data');
+    const data = await res.json();
+    if(data.products && data.products.length){
+      data.products.forEach(sp => {
+        const p = P.find(x => x.id === sp.productId);
+        if(p){
+          if(sp.imageUrl) p.img = sp.imageUrl;
+          if(sp.sizes && sp.sizes.length) p.sizes = sp.sizes;
+          if(sp.badge) p.badge = sp.badge;
+          if(sp.name) p.name = sp.name;
+        }
+      });
+    }
+  }catch(e){
+    // Server না থাকলে localStorage থেকে নাও
+    syncFromAdmin();
+  }
+  rP('all');uB();rC2();
+}
+
+loadServerData();
 </script>
 </body>
 </html>

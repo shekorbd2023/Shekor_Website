@@ -1,4 +1,3 @@
-// ── DNS FIX (MongoDB connection fix) ──
 const dns = require('dns');
 dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
 
@@ -7,81 +6,94 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 require('dotenv').config();
 
 const app = express();
 
+// ── UPLOADS FOLDER ──
+const uploadDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+
+// ── MULTER (ছবি আপলোড) ──
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, uploadDir),
+  filename: (req, file, cb) => {
+    const clean = file.originalname.replace(/[^a-zA-Z0-9.]/g, '-');
+    cb(null, Date.now() + '-' + clean);
+  }
+});
+const upload = multer({
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB max
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) cb(null, true);
+    else cb(new Error('শুধু ছবি আপলোড করা যাবে'));
+  }
+});
+
+// ── MIDDLEWARE ──
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
+
+// ── STATIC FILES ──
 app.use(express.static(path.join(__dirname)));
 app.use('/images', express.static(path.join(__dirname, 'images')));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(uploadDir));
 
 // ── DATABASE ──
-mongoose.connect(process.env.MONGO_URI, {
-  serverSelectionTimeoutMS: 10000,
-  family: 4
-})
-  .then(() => console.log('✅ MongoDB Connected — ডাটাবেস সংযুক্ত!'))
+mongoose.connect(process.env.MONGO_URI, { family: 4, serverSelectionTimeoutMS: 10000 })
+  .then(() => console.log('✅ MongoDB Connected!'))
   .catch(err => console.error('❌ MongoDB Error:', err.message));
 
-// ── USER MODEL ──
+// ── MODELS ──
 const userSchema = new mongoose.Schema({
-  name:      { type: String, required: true },
-  email:     { type: String, required: true, unique: true, lowercase: true },
-  password:  { type: String, required: true },
-  phone:     { type: String, default: '' },
-  address:   { type: String, default: '' },
-  role:      { type: String, enum: ['customer', 'admin'], default: 'customer' },
+  name: String, email: { type: String, unique: true, lowercase: true },
+  password: String, phone: String,
+  role: { type: String, enum: ['customer','admin'], default: 'customer' },
   createdAt: { type: Date, default: Date.now }
 });
 userSchema.pre('save', async function(next) {
   if (!this.isModified('password')) return next();
-  this.password = await bcrypt.hash(this.password, 12);
-  next();
+  this.password = await bcrypt.hash(this.password, 12); next();
 });
 const User = mongoose.model('User', userSchema);
 
-// ── PRODUCT MODEL ──
+// পণ্যের ছবি সহ Model
 const productSchema = new mongoose.Schema({
-  name:        { type: String, required: true },
-  slug:        { type: String, required: true, unique: true },
-  category:    { type: String, required: true },
-  description: { type: String, required: true },
-  price:       { type: Number, required: true },
+  productId:   { type: Number, required: true, unique: true },
+  name:        String,
+  category:    String,
+  imageUrl:    { type: String, default: '' },
+  imagePath:   { type: String, default: '' },
+  sizes: [{s: String, p: Number}],
+  badge:       String,
   stock:       { type: Number, default: 100 },
-  emoji:       { type: String, default: '🌿' },
-  badge:       { type: String, default: 'অর্গানিক' },
-  featured:    { type: Boolean, default: false },
-  ratings:     { average: { type: Number, default: 0 }, count: { type: Number, default: 0 } },
-  createdAt:   { type: Date, default: Date.now }
+  updatedAt:   { type: Date, default: Date.now }
 });
-const Product = mongoose.model('Product', productSchema);
+const ProductData = mongoose.model('ProductData', productSchema);
 
-// ── ORDER MODEL ──
 const orderSchema = new mongoose.Schema({
   orderNumber:     { type: String, unique: true },
   customerName:    { type: String, required: true },
   customerPhone:   { type: String, required: true },
   customerAddress: { type: String, required: true },
-  items: [{
-    name: String, size: String, price: Number, qty: Number, total: Number
-  }],
+  items: [{ name: String, size: String, price: Number, qty: Number, total: Number }],
   totalAmount:   { type: Number, required: true },
-  paymentMethod: { type: String, enum: ['bkash', 'nagad', 'rocket', 'cod'], default: 'cod' },
-  paymentNumber: { type: String, default: '' },
-  transactionId: { type: String, default: '' },
+  paymentMethod: { type: String, default: 'cod' },
+  paymentNumber: String,
+  transactionId: String,
   status:        { type: String, enum: ['pending','confirmed','processing','shipped','delivered','cancelled'], default: 'pending' },
-  note:          { type: String, default: '' },
+  note:          String,
   createdAt:     { type: Date, default: Date.now }
 });
 const Order = mongoose.model('Order', orderSchema);
 
-// ── NEWSLETTER ──
 const newsletterSchema = new mongoose.Schema({
-  email:     { type: String, required: true, unique: true },
+  email: { type: String, unique: true },
   createdAt: { type: Date, default: Date.now }
 });
 const Newsletter = mongoose.model('Newsletter', newsletterSchema);
@@ -91,7 +103,7 @@ const protect = async (req, res, next) => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
     if (!token) return res.status(401).json({ error: 'লগইন করুন' });
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'shekor_secret');
     req.user = await User.findById(decoded.id).select('-password');
     next();
   } catch { res.status(401).json({ error: 'টোকেন অবৈধ' }); }
@@ -101,16 +113,69 @@ const adminOnly = (req, res, next) => {
   next();
 };
 
-// ════════════════════════════════════
+// ════════════════════════════
+//  IMAGE UPLOAD ROUTES
+// ════════════════════════════
+
+// একটি পণ্যের ছবি আপলোড
+app.post('/api/upload/product/:productId', upload.single('image'), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'ছবি দিন' });
+    const imageUrl = `/uploads/${req.file.filename}`;
+    const productId = parseInt(req.params.productId);
+
+    // DB তে সেভ করো
+    await ProductData.findOneAndUpdate(
+      { productId },
+      { imageUrl, imagePath: req.file.path, updatedAt: new Date() },
+      { upsert: true, new: true }
+    );
+
+    res.json({ success: true, imageUrl, message: 'ছবি আপলোড সফল!' });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+// সব পণ্যের ছবি একসাথে নাও
+app.get('/api/products/images', async (req, res) => {
+  try {
+    const products = await ProductData.find({});
+    const imageMap = {};
+    products.forEach(p => { imageMap[p.productId] = p.imageUrl; });
+    res.json({ imageMap });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+// পণ্যের দাম ও তথ্য আপডেট
+app.post('/api/products/update', async (req, res) => {
+  try {
+    const { productId, sizes, badge, stock, name } = req.body;
+    await ProductData.findOneAndUpdate(
+      { productId },
+      { sizes, badge, stock, name, updatedAt: new Date() },
+      { upsert: true, new: true }
+    );
+    res.json({ success: true, message: 'পণ্য আপডেট সফল!' });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+// সব পণ্যের update data নাও
+app.get('/api/products/data', async (req, res) => {
+  try {
+    const products = await ProductData.find({});
+    res.json({ products });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+// ════════════════════════════
 //  AUTH ROUTES
-// ════════════════════════════════════
+// ════════════════════════════
 app.post('/api/auth/register', async (req, res) => {
   try {
     const { name, email, password, phone } = req.body;
     if (!name || !email || !password) return res.status(400).json({ error: 'সব তথ্য দিন' });
     if (await User.findOne({ email })) return res.status(400).json({ error: 'ইমেইল নিবন্ধিত' });
     const user = await User.create({ name, email, password, phone });
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '30d' });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'shekor_secret', { expiresIn: '30d' });
     res.status(201).json({ token, user: { id: user._id, name: user.name, email: user.email, role: user.role } });
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
@@ -121,49 +186,31 @@ app.post('/api/auth/login', async (req, res) => {
     const user = await User.findOne({ email });
     if (!user || !(await bcrypt.compare(password, user.password)))
       return res.status(401).json({ error: 'ইমেইল বা পাসওয়ার্ড ভুল' });
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '30d' });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'shekor_secret', { expiresIn: '30d' });
     res.json({ token, user: { id: user._id, name: user.name, email: user.email, role: user.role } });
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-app.get('/api/auth/me', protect, (req, res) => res.json({ user: req.user }));
-
-// ════════════════════════════════════
-//  ORDER ROUTES (no login required)
-// ════════════════════════════════════
-
-// অর্ডার দিন
+// ════════════════════════════
+//  ORDER ROUTES
+// ════════════════════════════
 app.post('/api/orders', async (req, res) => {
   try {
     const { customerName, customerPhone, customerAddress, items, totalAmount, paymentMethod, paymentNumber, transactionId, note } = req.body;
-
     if (!customerName || !customerPhone || !customerAddress)
       return res.status(400).json({ error: 'নাম, ফোন ও ঠিকানা দিন' });
-    if (!items || items.length === 0)
-      return res.status(400).json({ error: 'কার্টে পণ্য নেই' });
-
-    // Order number generate
+    if (!items?.length) return res.status(400).json({ error: 'কার্টে পণ্য নেই' });
     const orderNumber = 'SK' + Date.now().toString().slice(-8);
-
     const order = await Order.create({
       orderNumber, customerName, customerPhone, customerAddress,
       items, totalAmount, paymentMethod: paymentMethod || 'cod',
-      paymentNumber: paymentNumber || '',
-      transactionId: transactionId || '',
-      note: note || ''
+      paymentNumber: paymentNumber || '', transactionId: transactionId || '', note: note || ''
     });
-
-    res.status(201).json({
-      success: true,
-      message: 'অর্ডার সফল হয়েছে!',
-      orderNumber: order.orderNumber,
-      order
-    });
+    res.status(201).json({ success: true, message: 'অর্ডার সফল!', orderNumber: order.orderNumber, order });
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-// সব অর্ডার দেখুন (admin)
-app.get('/api/orders', protect, adminOnly, async (req, res) => {
+app.get('/api/orders', async (req, res) => {
   try {
     const { status } = req.query;
     const filter = status ? { status } : {};
@@ -172,15 +219,13 @@ app.get('/api/orders', protect, adminOnly, async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-// অর্ডার স্ট্যাটাস আপডেট
-app.put('/api/orders/:id/status', protect, adminOnly, async (req, res) => {
+app.put('/api/orders/:id/status', async (req, res) => {
   try {
     const order = await Order.findByIdAndUpdate(req.params.id, { status: req.body.status }, { new: true });
     res.json({ order });
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-// অর্ডার নম্বর দিয়ে ট্র্যাক
 app.get('/api/orders/track/:orderNumber', async (req, res) => {
   try {
     const order = await Order.findOne({ orderNumber: req.params.orderNumber });
@@ -189,42 +234,9 @@ app.get('/api/orders/track/:orderNumber', async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-// ════════════════════════════════════
-//  PRODUCT ROUTES
-// ════════════════════════════════════
-app.get('/api/products', async (req, res) => {
-  try {
-    const { category } = req.query;
-    const filter = category && category !== 'all' ? { category } : {};
-    const products = await Product.find(filter).sort({ createdAt: -1 });
-    res.json({ products, total: products.length });
-  } catch (err) { res.status(500).json({ error: err.message }); }
-});
-
-app.post('/api/products', protect, adminOnly, async (req, res) => {
-  try {
-    const product = await Product.create(req.body);
-    res.status(201).json({ product });
-  } catch (err) { res.status(500).json({ error: err.message }); }
-});
-
-app.put('/api/products/:id', protect, adminOnly, async (req, res) => {
-  try {
-    const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json({ product });
-  } catch (err) { res.status(500).json({ error: err.message }); }
-});
-
-app.delete('/api/products/:id', protect, adminOnly, async (req, res) => {
-  try {
-    await Product.findByIdAndDelete(req.params.id);
-    res.json({ message: 'পণ্য মুছে ফেলা হয়েছে' });
-  } catch (err) { res.status(500).json({ error: err.message }); }
-});
-
-// ════════════════════════════════════
+// ════════════════════════════
 //  NEWSLETTER
-// ════════════════════════════════════
+// ════════════════════════════
 app.post('/api/newsletter', async (req, res) => {
   try {
     const { email } = req.body;
@@ -235,24 +247,16 @@ app.post('/api/newsletter', async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-// ════════════════════════════════════
-//  ADMIN STATS
-// ════════════════════════════════════
-app.get('/api/admin/stats', protect, adminOnly, async (req, res) => {
+// ── ADMIN STATS ──
+app.get('/api/admin/stats', async (req, res) => {
   try {
-    const [totalOrders, totalProducts, totalUsers, revenueData, pendingOrders, recentOrders] = await Promise.all([
+    const [totalOrders, totalProducts, revenueData, pendingOrders] = await Promise.all([
       Order.countDocuments(),
-      Product.countDocuments(),
-      User.countDocuments({ role: 'customer' }),
+      ProductData.countDocuments(),
       Order.aggregate([{ $group: { _id: null, total: { $sum: '$totalAmount' } } }]),
-      Order.countDocuments({ status: 'pending' }),
-      Order.find().sort({ createdAt: -1 }).limit(5)
+      Order.countDocuments({ status: 'pending' })
     ]);
-    res.json({
-      totalOrders, totalProducts, totalUsers, pendingOrders,
-      totalRevenue: revenueData[0]?.total || 0,
-      recentOrders
-    });
+    res.json({ totalOrders, totalProducts, pendingOrders, totalRevenue: revenueData[0]?.total || 0 });
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
@@ -264,8 +268,8 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`🚀 শেকড় সার্ভার চালু: http://localhost:${PORT}`);
-  console.log(`📦 অর্ডার API: http://localhost:${PORT}/api/orders`);
+  console.log(`📸 ছবি আপলোড API: POST /api/upload/product/:id`);
 });

@@ -385,7 +385,10 @@ let products = JSON.parse(localStorage.getItem('shekorProds') || 'null') || [
 let allOrders = [];
 let currentFilter = 'all';
 
-function saveProds(){localStorage.setItem('shekorProds',JSON.stringify(products));}
+function saveProds(){
+  localStorage.setItem('shekorProds', JSON.stringify(products));
+  localStorage.setItem('shekorProdsUpdated', Date.now().toString());
+}
 
 // ── PAGE NAVIGATION ──
 function goPage(id, btn){
@@ -440,14 +443,24 @@ function priceRow(p){
   </tr>`;
 }
 
-function updatePrices(id){
+async function updatePrices(id){
   const p=products.find(x=>x.id===id);
   p.sizes.forEach((s,i)=>{
-    const el=document.getElementById(`p${id}-${i}`);
+    const el=document.getElementById('p'+id+'-'+i);
     if(el && el.value) s.p=parseInt(el.value);
   });
   saveProds();
-  toast(`✅ ${p.name} এর দাম আপডেট হয়েছে!`);
+
+  // Server এও সেভ করো
+  try{
+    await fetch('/api/products/update',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({productId:id, sizes:p.sizes, name:p.name, badge:p.badge, stock:p.stock})
+    });
+  }catch(e){}
+
+  toast('✅ '+p.name+' এর দাম আপডেট হয়েছে!');
 }
 
 function quickEditPrice(id){
@@ -471,14 +484,33 @@ function renderImgGrid(){
     </div>`).join('');
 }
 
-function uploadImg(e,id){
+async function uploadImg(e,id){
   const file=e.target.files[0];if(!file)return;
+  const p=products.find(x=>x.id===id);
+  toast('⏳ ছবি আপলোড হচ্ছে...');
+
+  // Server এ আপলোড করো
+  try{
+    const fd=new FormData();
+    fd.append('image',file);
+    const res=await fetch('/api/upload/product/'+id,{method:'POST',body:fd});
+    const data=await res.json();
+    if(data.success){
+      p.img=data.imageUrl;
+      saveProds();renderImgGrid();
+      toast('✅ '+p.name+' এর ছবি সার্ভারে আপলোড হয়েছে!');
+      return;
+    }
+  }catch(err){
+    console.log('Server upload failed, using local:', err);
+  }
+
+  // Server না থাকলে localStorage এ সেভ করো
   const r=new FileReader();
   r.onload=ev=>{
-    const p=products.find(x=>x.id===id);
     p.img=ev.target.result;
     saveProds();renderImgGrid();
-    toast(`✅ ${p.name} এর ছবি আপলোড হয়েছে!`);
+    toast('✅ '+p.name+' এর ছবি সেভ হয়েছে (local)');
   };
   r.readAsDataURL(file);
 }
