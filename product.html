@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>শেকড় — পণ্যের বিবরণ</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--g:#1A3A1F;--g2:#2D5C34;--g3:#4A8C52;--gold:#D4A940;--gold2:#E8C050;--cream:#F5F2EB;--cream2:#EAE4D5;--brown:#3B1F0A;--w:#FEFFFE;--t:#1A2B1A;--t2:#3A4E3A;--t3:#6B826B;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--t);}
+/* NAV */
+nav{background:var(--w);box-shadow:0 2px 20px rgba(0,0,0,.08);position:sticky;top:0;z-index:1000;padding:0 5%;}
+.ni{display:flex;align-items:center;justify-content:space-between;height:68px;}
+.nl{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nl img{width:46px;height:46px;border-radius:50%;object-fit:cover;}
+.nbn{font-family:'Hind Siliguri',sans-serif;font-size:1.25rem;font-weight:700;color:var(--g);}
+.nen{font-size:.6rem;color:var(--t3);letter-spacing:.12em;text-transform:uppercase;}
+.nr{display:flex;align-items:center;gap:.8rem;}
+.icb{background:none;border:none;cursor:pointer;padding:.4rem;border-radius:6px;font-size:1.1rem;color:var(--t2);position:relative;}
+.cb{position:absolute;top:-4px;right:-4px;background:var(--gold);color:var(--g);width:18px;height:18px;border-radius:50%;font-size:.65rem;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.back-btn{display:flex;align-items:center;gap:6px;color:var(--t2);text-decoration:none;font-size:.88rem;font-family:'Hind Siliguri',sans-serif;transition:color .25s;}
+.back-btn:hover{color:var(--g);}
+/* BREADCRUMB */
+.breadcrumb{padding:1rem 5%;background:var(--w);border-bottom:1px solid var(--cream2);}
+.breadcrumb span{font-size:.8rem;color:var(--t3);font-family:'Hind Siliguri',sans-serif;}
+.breadcrumb a{color:var(--g);text-decoration:none;font-size:.8rem;}
+.breadcrumb span.sep{margin:0 .4rem;}
+/* PRODUCT DETAIL */
+.product-page{max-width:1150px;margin:0 auto;padding:2.5rem 5%;}
+.product-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start;margin-bottom:3rem;}
+/* IMAGE SECTION */
+.img-section{}
+.main-img{width:100%;aspect-ratio:1;border-radius:16px;overflow:hidden;background:linear-gradient(145deg,#E8F5E8,var(--cream2));display:flex;align-items:center;justify-content:center;font-size:8rem;margin-bottom:1rem;position:relative;}
+.main-img img{width:100%;height:100%;object-fit:cover;}
+.img-badge{position:absolute;top:16px;left:16px;background:var(--g);color:var(--gold);font-size:.75rem;font-weight:700;padding:5px 14px;border-radius:20px;letter-spacing:.08em;}
+.img-thumbs{display:flex;gap:.6rem;}
+.thumb{width:70px;height:70px;border-radius:8px;overflow:hidden;border:2px solid transparent;cursor:pointer;background:var(--cream2);display:flex;align-items:center;justify-content:center;font-size:1.5rem;transition:all .25s;}
+.thumb.active,.thumb:hover{border-color:var(--g);}
+.thumb img{width:100%;height:100%;object-fit:cover;}
+/* INFO SECTION */
+.info-section{}
+.p-category{font-size:.72rem;text-transform:uppercase;letter-spacing:.15em;color:var(--g3);margin-bottom:.5rem;font-family:'DM Sans',sans-serif;}
+.p-name{font-family:'Hind Siliguri',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;color:var(--t);line-height:1.2;margin-bottom:.8rem;}
+.p-rating{display:flex;align-items:center;gap:.5rem;margin-bottom:1rem;}
+.stars{color:#F4A015;font-size:.9rem;}
+.rating-num{font-size:.85rem;color:var(--t2);font-weight:600;}
+.review-count{font-size:.8rem;color:var(--t3);}
+.p-desc{font-family:'Hind Siliguri',sans-serif;font-size:1rem;line-height:1.9;color:var(--t2);margin-bottom:1.5rem;}
+/* SIZE SELECTOR */
+.size-label{font-family:'Hind Siliguri',sans-serif;font-size:.85rem;font-weight:600;color:var(--t);margin-bottom:.6rem;}
+.sizes{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+.sz-btn{padding:.5rem 1.1rem;border-radius:8px;border:2px solid var(--cream2);background:var(--w);font-family:'Hind Siliguri',sans-serif;font-size:.88rem;cursor:pointer;transition:all .25s;color:var(--t2);}
+.sz-btn.active,.sz-btn:hover{border-color:var(--g);background:var(--g);color:white;}
+/* PRICE */
+.price-box{display:flex;align-items:baseline;gap:.8rem;margin-bottom:1.5rem;}
+.price-main{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:600;color:var(--g);}
+.price-old{font-size:1rem;color:var(--t3);text-decoration:line-through;}
+.price-save{background:#E8F5E9;color:#2E7D32;font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:20px;}
+/* ADD TO CART */
+.cart-actions{display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;}
+.qty-wrap{display:flex;align-items:center;gap:0;border:2px solid var(--cream2);border-radius:10px;overflow:hidden;}
+.qty-btn{width:40px;height:48px;border:none;background:var(--cream);cursor:pointer;font-size:1.1rem;transition:background .2s;}
+.qty-btn:hover{background:var(--cream2);}
+.qty-num{width:50px;height:48px;text-align:center;border:none;font-size:1rem;font-weight:700;font-family:'DM Sans',sans-serif;background:var(--w);color:var(--t);}
+.add-cart-btn{flex:1;background:var(--g);color:white;border:none;padding:.9rem 1.5rem;border-radius:10px;font-family:'Hind Siliguri',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:.5rem;}
+.add-cart-btn:hover{background:var(--g2);transform:translateY(-1px);}
+.order-now-btn{width:100%;background:var(--gold);color:var(--g);border:none;padding:.9rem;border-radius:10px;font-family:'Hind Siliguri',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;transition:all .3s;margin-bottom:1rem;}
+.order-now-btn:hover{background:var(--gold2);}
+/* HIGHLIGHTS */
+.highlights{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:1.5rem;}
+.hl{display:flex;align-items:center;gap:8px;background:var(--cream);border-radius:8px;padding:.7rem;}
+.hl-ic{font-size:1.1rem;}
+.hl-txt{font-family:'Hind Siliguri',sans-serif;font-size:.8rem;color:var(--t2);}
+/* TABS */
+.tabs-wrap{margin-top:3rem;}
+.tab-btns{display:flex;gap:0;border-bottom:2px solid var(--cream2);margin-bottom:1.5rem;}
+.tab-btn{padding:.75rem 1.5rem;border:none;background:transparent;font-family:'Hind Siliguri',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;color:var(--t3);border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .25s;}
+.tab-btn.active{color:var(--g);border-bottom-color:var(--g);}
+.tab-content{display:none;}.tab-content.active{display:block;}
+/* DETAILS TABLE */
+.details-table{width:100%;border-collapse:collapse;}
+.details-table tr{border-bottom:1px solid var(--cream);}
+.details-table td{padding:.9rem 1rem;font-size:.9rem;}
+.details-table td:first-child{color:var(--t3);width:40%;font-family:'Hind Siliguri',sans-serif;}
+.details-table td:last-child{color:var(--t);font-weight:500;font-family:'Hind Siliguri',sans-serif;}
+/* ORIGIN */
+.origin-box{background:var(--g);border-radius:16px;padding:2rem;color:white;margin-bottom:1.5rem;}
+.origin-box h3{font-family:'Hind Siliguri',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:1rem;color:var(--gold);}
+.origin-box p{font-family:'Hind Siliguri',sans-serif;font-size:.92rem;line-height:1.9;color:rgba(255,255,255,.8);}
+.origin-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.2rem;}
+.os{text-align:center;background:rgba(255,255,255,.08);border-radius:10px;padding:1rem;}
+.os h4{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--gold);}
+.os p{font-size:.75rem;color:rgba(255,255,255,.6);margin-top:2px;}
+/* NUTRITION */
+.nutrition-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.8rem;}
+.nut-card{background:var(--cream);border-radius:10px;padding:1rem;text-align:center;}
+.nut-val{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;color:var(--g);}
+.nut-name{font-size:.72rem;color:var(--t3);margin-top:3px;font-family:'DM Sans',sans-serif;}
+/* REVIEWS */
+.review-summary{display:flex;align-items:center;gap:2rem;background:var(--cream);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;}
+.rs-big{text-align:center;}
+.rs-num{font-family:'Playfair Display',serif;font-size:3rem;font-weight:600;color:var(--g);}
+.rs-stars{color:#F4A015;font-size:1.1rem;}
+.rs-count{font-size:.78rem;color:var(--t3);margin-top:3px;}
+.review-bars{flex:1;}
+.rb{display:flex;align-items:center;gap:.8rem;margin-bottom:.4rem;}
+.rb-label{font-size:.78rem;color:var(--t2);width:30px;flex-shrink:0;}
+.rb-bar{flex:1;height:6px;background:var(--cream2);border-radius:3px;overflow:hidden;}
+.rb-fill{height:100%;background:var(--gold);border-radius:3px;}
+.rb-count{font-size:.75rem;color:var(--t3);width:25px;text-align:right;}
+.review-card{background:var(--w);border-radius:12px;padding:1.3rem;margin-bottom:.8rem;border:1px solid var(--cream);}
+.rc-head{display:flex;align-items:center;gap:10px;margin-bottom:.7rem;}
+.rc-av{width:40px;height:40px;border-radius:50%;background:var(--g);color:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:600;}
+.rc-name{font-family:'Hind Siliguri',sans-serif;font-size:.9rem;font-weight:600;}
+.rc-date{font-size:.75rem;color:var(--t3);}
+.rc-stars{color:#F4A015;font-size:.75rem;margin-bottom:.5rem;}
+.rc-text{font-family:'Hind Siliguri',sans-serif;font-size:.9rem;color:var(--t2);line-height:1.75;}
+/* RELATED */
+.related{padding:3rem 5%;background:var(--w);}
+.related h2{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--t);margin-bottom:1.5rem;}
+.rel-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;}
+.rel-card{background:var(--cream);border-radius:12px;overflow:hidden;cursor:pointer;transition:all .3s;}
+.rel-card:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(26,58,31,.1);}
+.rel-img{width:100%;aspect-ratio:1;overflow:hidden;background:var(--cream2);display:flex;align-items:center;justify-content:center;font-size:3rem;}
+.rel-img img{width:100%;height:100%;object-fit:cover;}
+.rel-info{padding:.9rem;}
+.rel-name{font-family:'Hind Siliguri',sans-serif;font-size:.88rem;font-weight:600;color:var(--t);margin-bottom:.3rem;}
+.rel-price{font-family:'Playfair Display',serif;font-size:1rem;color:var(--g);}
+/* CART DRAWER */
+.cov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;display:none;}
+.cov.op{display:block;}
+.cdr{position:fixed;right:0;top:0;bottom:0;width:360px;background:white;z-index:2001;transform:translateX(100%);transition:transform .35s;display:flex;flex-direction:column;}
+.cdr.op{transform:translateX(0);}
+.cdh{padding:1.2rem 1.5rem;border-bottom:1px solid var(--cream2);display:flex;justify-content:space-between;align-items:center;}
+.cdh h3{font-family:'Hind Siliguri',sans-serif;font-size:1.1rem;font-weight:700;color:var(--g);}
+.cdc{background:none;border:none;font-size:1.3rem;cursor:pointer;}
+.cdit{flex:1;overflow-y:auto;padding:1rem 1.5rem;}
+.cdem{text-align:center;padding:3rem 1rem;color:var(--t3);font-family:'Hind Siliguri',sans-serif;}
+.ci{display:flex;gap:12px;padding:1rem 0;border-bottom:1px solid var(--cream);align-items:center;}
+.cii{width:56px;height:56px;border-radius:8px;overflow:hidden;flex-shrink:0;background:var(--cream2);}
+.cii img{width:100%;height:100%;object-fit:cover;}
+.cin{font-family:'Hind Siliguri',sans-serif;font-size:.88rem;font-weight:600;}
+.cisz{font-size:.72rem;color:var(--t3);}
+.cip{font-size:.85rem;color:var(--g);font-weight:600;}
+.ciq{display:flex;align-items:center;gap:6px;margin-top:5px;}
+.qb{width:22px;height:22px;border-radius:50%;border:1px solid var(--cream2);background:var(--cream);cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;}
+.qb:hover{background:var(--g);color:white;}
+.qn{font-size:.85rem;font-weight:600;min-width:18px;text-align:center;}
+.cdl{background:none;border:none;color:var(--t3);cursor:pointer;font-size:.82rem;}
+.cdf{padding:1.2rem 1.5rem;border-top:1px solid var(--cream2);}
+.cdt{display:flex;justify-content:space-between;margin-bottom:1rem;}
+.cdt span{font-family:'Hind Siliguri',sans-serif;font-size:.95rem;}
+.cdt strong{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--g);}
+.cck{width:100%;background:var(--g);color:white;border:none;padding:.95rem;border-radius:25px;font-family:'Hind Siliguri',sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;}
+.tst{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--g);color:white;padding:.8rem 1.5rem;border-radius:25px;font-family:'Hind Siliguri',sans-serif;font-size:.9rem;z-index:9999;white-space:nowrap;animation:ti .3s ease;}
+@keyframes ti{from{opacity:0;transform:translate(-50%,10px);}to{opacity:1;transform:translate(-50%,0);}}
+@media(max-width:900px){.product-grid{grid-template-columns:1fr;}.highlights{grid-template-columns:1fr;}.nutrition-grid{grid-template-columns:repeat(3,1fr);}.rel-grid{grid-template-columns:1fr 1fr;}.origin-stats{grid-template-columns:1fr 1fr;}.cdr{width:100%;}}
+@media(max-width:600px){.cart-actions{flex-direction:column;}.rel-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="ni">
+    <a href="index.html" class="nl"><img src="logo.png" alt="শেকড়"/><div><div class="nbn">শেকড়</div><div class="nen">Shekor Organics</div></div></a>
+    <div class="nr">
+      <a href="index.html" class="back-btn">← পণ্যে ফিরুন</a>
+      <button class="icb" onclick="openCart()">🛒<span class="cb" id="cb">0</span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="breadcrumb">
+  <a href="index.html">হোম</a>
+  <span class="sep">›</span>
+  <span id="bc-cat">পণ্য</span>
+  <span class="sep">›</span>
+  <span id="bc-name">লোড হচ্ছে...</span>
+</div>
+
+<div class="product-page">
+  <div class="product-grid">
+    <!-- IMAGE -->
+    <div class="img-section">
+      <div class="main-img" id="mainImg">
+        <div class="img-badge" id="pBadge">লোড হচ্ছে</div>
+        <span id="mainEmoji" style="font-size:8rem"></span>
+        <img id="mainImgEl" src="" alt="" style="display:none"/>
+      </div>
+      <div class="img-thumbs" id="thumbs"></div>
+    </div>
+
+    <!-- INFO -->
+    <div class="info-section">
+      <div class="p-category" id="pCat"></div>
+      <h1 class="p-name" id="pName">লোড হচ্ছে...</h1>
+      <div class="p-rating">
+        <span class="stars" id="pStars">★★★★★</span>
+        <span class="rating-num" id="pRating">5.0</span>
+        <span class="review-count" id="pReviews">(০ রিভিউ)</span>
+      </div>
+      <p class="p-desc" id="pDesc"></p>
+
+      <div class="size-label">সাইজ সিলেক্ট করুন:</div>
+      <div class="sizes" id="pSizes"></div>
+
+      <div class="price-box">
+        <span class="price-main" id="pPrice">৳০</span>
+        <span class="price-old" id="pOld" style="display:none"></span>
+        <span class="price-save" id="pSave" style="display:none"></span>
+      </div>
+
+      <div class="highlights" id="pHighlights"></div>
+
+      <div class="cart-actions">
+        <div class="qty-wrap">
+          <button class="qty-btn" onclick="changeQty(-1)">−</button>
+          <input class="qty-num" id="qtyInput" type="number" value="1" min="1" max="50" readonly/>
+          <button class="qty-btn" onclick="changeQty(1)">+</button>
+        </div>
+        <button class="add-cart-btn" onclick="addToCart()">🛒 কার্টে যোগ করুন</button>
+      </div>
+      <button class="order-now-btn" onclick="orderNow()">⚡ এখনই অর্ডার করুন</button>
+
+      <div style="display:flex;gap:.8rem;align-items:center;">
+        <a href="https://www.facebook.com/shekorbd23" target="_blank" style="display:flex;align-items:center;gap:5px;color:#1877F2;font-size:.83rem;font-family:'Hind Siliguri',sans-serif;text-decoration:none;">📘 Facebook এ জিজ্ঞেস করুন</a>
+        <span style="color:var(--t3)">|</span>
+        <span style="font-size:.83rem;color:var(--t3);font-family:'Hind Siliguri',sans-serif;">📞 01738571730</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs-wrap">
+    <div class="tab-btns">
+      <button class="tab-btn active" onclick="showTab('details',this)">বিস্তারিত</button>
+      <button class="tab-btn" onclick="showTab('origin',this)">উৎস ও গুণাগুণ</button>
+      <button class="tab-btn" onclick="showTab('nutrition',this)">পুষ্টিগুণ</button>
+      <button class="tab-btn" onclick="showTab('reviews',this)">রিভিউ</button>
+    </div>
+
+    <div class="tab-content active" id="tab-details">
+      <table class="details-table" id="detailsTable"></table>
+    </div>
+
+    <div class="tab-content" id="tab-origin">
+      <div class="origin-box" id="originBox"></div>
+    </div>
+
+    <div class="tab-content" id="tab-nutrition">
+      <div class="nutrition-grid" id="nutritionGrid"></div>
+    </div>
+
+    <div class="tab-content" id="tab-reviews">
+      <div class="review-summary" id="reviewSummary"></div>
+      <div id="reviewList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- RELATED PRODUCTS -->
+<div class="related">
+  <h2>একই ধরনের পণ্য</h2>
+  <div class="rel-grid" id="relGrid"></div>
+</div>
+
+<!-- CART -->
+<div class="cov" id="cov" onclick="closeCart()"></div>
+<div class="cdr" id="cdr">
+  <div class="cdh"><h3>🛒 আমার কার্ট</h3><button class="cdc" onclick="closeCart()">✕</button></div>
+  <div class="cdit" id="cdit"><div class="cdem"><p style="font-size:2rem">🛒</p><p>কার্ট খালি</p></div></div>
+  <div class="cdf"><div class="cdt"><span>মোট:</span><strong id="cdt">৳০</strong></div><button class="cck" onclick="location.href='checkout.html'">চেকআউট করুন →</button></div>
+</div>
+
+<script>
+// ── FULL PRODUCT DATA WITH DETAILS ──
+const PRODUCTS = [
+  {
+    id:1, name:'বড়ই ফুলের মধু', cat:'modhu', catName:'মধু',
+    em:'🍯', img:'/images/boroi-modhu.jpg', badge:'খাঁটি মধু',
+    rat:4.9, rv:87,
+    desc:'বড়ই গাছের ফুল থেকে সংগ্রহ করা বিশেষ মধু। হালকা সুগন্ধ ও মিষ্টি স্বাদের জন্য এটি সবচেয়ে জনপ্রিয়। শীতকালে বড়ই ফুল ফোটার সময় মৌমাছিরা এই মধু সংগ্রহ করে।',
+    sizes:[{s:'২৫০ গ্রাম',p:250},{s:'৫০০ গ্রাম',p:480},{s:'১ কেজি',p:900}],
+    highlights:['১০০% খাঁটি','কোনো চিনি নেই','হাতে সংগ্রহ','কোল্ড প্রসেসড'],
+    details:{
+      'ধরন':'ফুলের মধু','উৎস':'বড়ই ফুল','সংগ্রহের সময়':'শীতকাল','রঙ':'হালকা সোনালি',
+      'স্বাদ':'মিষ্টি ও সুগন্ধী','সংরক্ষণ':'ঠান্ডা ও শুষ্ক স্থানে','মেয়াদ':'২ বছর'
+    },
+    origin:{
+      title:'উৎস ও উৎপাদন',
+      desc:'রাজশাহী ও চাঁপাইনবাবগঞ্জের বিস্তীর্ণ বড়ই বাগান থেকে সংগ্রহ করা হয়। ডিসেম্বর থেকে ফেব্রুয়ারি মাসে বড়ই ফুল ফোটে এবং মৌমাছিরা এই ফুলের মধু সংগ্রহ করে। আমাদের অভিজ্ঞ মৌয়ালরা ঐতিহ্যবাহী পদ্ধতিতে মধু সংগ্রহ করেন এবং কোনো তাপ প্রয়োগ ছাড়াই প্রক্রিয়াজাত করেন।',
+      stats:[{v:'৩০+',l:'বছরের অভিজ্ঞতা'},{v:'১০০%',l:'প্রাকৃতিক'},{v:'০%',l:'ভেজাল'}]
+    },
+    nutrition:[
+      {v:'৩২০',l:'ক্যালরি (১০০গ্রা)'},
+      {v:'৮২গ্রা',l:'কার্বোহাইড্রেট'},
+      {v:'৩৮%',l:'ফ্রুক্টোজ'},
+      {v:'৩১%',l:'গ্লুকোজ'},
+      {v:'১৭%',l:'পানি'}
+    ],
+    reviews:[
+      {name:'রাহেলা বেগম',loc:'ঢাকা',rating:5,text:'অসাধারণ! এত ভালো মধু আগে কখনো খাইনি। বাচ্চাদের প্রতিদিন দিচ্ছি।',date:'মার্চ ২০২৫'},
+      {name:'কামরুল হাসান',loc:'চট্টগ্রাম',rating:5,text:'সম্পূর্ণ খাঁটি মধু। কোনো চিনি মেশানো নেই বোঝাই যায়।',date:'ফেব্রুয়ারি ২০২৫'},
+      {name:'নাসরিন আক্তার',loc:'সিলেট',rating:4,text:'খুব ভালো মধু, দাম একটু বেশি মনে হলেও মান অনুযায়ী ঠিকই আছে।',date:'জানুয়ারি ২০২৫'}
+    ]
+  },
+  {
+    id:2, name:'সিরষা ফুলের মধু', cat:'modhu', catName:'মধু',
+    em:'🍯', img:'/images/sirsha-modhu.jpg', badge:'মৌসুমী মধু',
+    rat:4.8, rv:62,
+    desc:'সরিষা ফুলের মৌসুমে সংগ্রহ করা বিশেষ মধু। হালকা হলুদ রঙের এই মধু দ্রুত জমে যায় — এটাই খাঁটি হওয়ার প্রমাণ। শীতকালের সকালে এক চামচ এই মধু শরীরকে উষ্ণ রাখে।',
+    sizes:[{s:'৫০০ গ্রাম',p:260},{s:'১ কেজি',p:500}],
+    highlights:['মৌসুমী মধু','দ্রুত জমে','হালকা রঙ','ঔষধি গুণ'],
+    details:{
+      'ধরন':'সরিষা ফুলের মধু','উৎস':'সরিষা ফুল','সংগ্রহের সময়':'নভেম্বর-জানুয়ারি',
+      'রঙ':'হালকা হলুদ','বৈশিষ্ট্য':'ঠান্ডায় জমে যায়','সংরক্ষণ':'ঘরের তাপমাত্রায়','মেয়াদ':'২ বছর'
+    },
+    origin:{
+      title:'কোথা থেকে আসে',
+      desc:'বাংলাদেশের উত্তরাঞ্চল — যশোর, ময়মনসিংহ ও রাজশাহীর বিস্তীর্ণ সরিষা ক্ষেত থেকে সংগ্রহ করা হয়। নভেম্বর থেকে জানুয়ারি মাসে যখন সারা মাঠ হলুদ ফুলে ভরে যায়, তখনই মৌয়ালরা মধু সংগ্রহ করেন। এই মধু ঠান্ডায় স্বাভাবিকভাবেই জমে যায়।',
+      stats:[{v:'নভেম্বর',l:'সংগ্রহ শুরু'},{v:'১০০%',l:'প্রাকৃতিক'},{v:'খাঁটি',l:'গুণমান'}]
+    },
+    nutrition:[
+      {v:'৩০৪',l:'ক্যালরি (১০০গ্রা)'},
+      {v:'৮০গ্রা',l:'কার্বোহাইড্রেট'},
+      {v:'৩৫%',l:'ফ্রুক্টোজ'},
+      {v:'৩৩%',l:'গ্লুকোজ'},
+      {v:'১৮%',l:'পানি'}
+    ],
+    reviews:[
+      {name:'মোহাম্মদ আলী',loc:'রাজশাহী',rating:5,text:'সত্যিকারের সিরষার মধু। ঠান্ডায় জমে যায় — এটাই প্রমাণ।',date:'জানুয়ারি ২০২৫'},
+      {name:'শারমিন বেগম',loc:'ঢাকা',rating:4,text:'ভালো মধু, দাম সাশ্রয়ী।',date:'ডিসেম্বর ২০২৪'}
+    ]
+  },
+  {
+    id:3, name:'লিচু ফুলের মধু', cat:'modhu', catName:'মধু',
+    em:'🍯', img:'/images/lichu-modhu.jpg', badge:'সুগন্ধী',
+    rat:4.9, rv:103,
+    desc:'লিচু বাগানের মৌসুমে সংগ্রহ করা বিশেষ সুগন্ধী মধু। লিচুর সুমিষ্ট গন্ধ এই মধুতে প্রাকৃতিকভাবে মিশে থাকে। শিশুদের জন্য সবচেয়ে পছন্দের মধু।',
+    sizes:[{s:'২৫০ গ্রাম',p:220},{s:'৫০০ গ্রাম',p:400},{s:'১ কেজি',p:750}],
+    highlights:['লিচুর সুগন্ধ','শিশুদের পছন্দ','হালকা রঙ','মিষ্টি স্বাদ'],
+    details:{
+      'ধরন':'লিচু ফুলের মধু','উৎস':'লিচু ফুল','সংগ্রহের সময়':'এপ্রিল-মে',
+      'রঙ':'পানির মতো স্বচ্ছ','গন্ধ':'লিচুর সুগন্ধ','সংরক্ষণ':'ঘরের তাপমাত্রায়','মেয়াদ':'২ বছর'
+    },
+    origin:{
+      title:'লিচুর বাগান থেকে',
+      desc:'রাজশাহী ও দিনাজপুরের বিখ্যাত লিচু বাগান থেকে এপ্রিল-মে মাসে সংগ্রহ করা হয়। লিচু ফুলের মৌসুম মাত্র ৩-৪ সপ্তাহ, তাই এই মধু বছরে একবারই পাওয়া যায়।',
+      stats:[{v:'এপ্রিল',l:'সংগ্রহের সময়'},{v:'সীমিত',l:'পরিমাণ'},{v:'১০০%',l:'খাঁটি'}]
+    },
+    nutrition:[
+      {v:'৩১৫',l:'ক্যালরি (১০০গ্রা)'},
+      {v:'৮১গ্রা',l:'কার্বোহাইড্রেট'},
+      {v:'৪০%',l:'ফ্রুক্টোজ'},
+      {v:'৩০%',l:'গ্লুকোজ'},
+      {v:'১৭%',l:'পানি'}
+    ],
+    reviews:[
+      {name:'সাবিনা ইয়াসমিন',loc:'দিনাজপুর',rating:5,text:'লিচুর গন্ধ আছে সত্যিই! অবিশ্বাস্য।',date:'মে ২০২৫'},
+      {name:'রফিকুল ইসলাম',loc:'ঢাকা',rating:5,text:'বাচ্চারা খুব পছন্দ করে।',date:'এপ্রিল ২০২৫'}
+    ]
+  },
+  {
+    id:4, name:'কালোজিরার ফুলের মধু', cat:'modhu', catName:'মধু',
+    em:'🍯', img:'/images/kalojira-modhu.jpg', badge:'ঔষধি মধু',
+    rat:5.0, rv:54,
+    desc:'কালোজিরা ফুল থেকে সংগ্রহ করা সবচেয়ে মূল্যবান মধু। ইসলামিক চিকিৎসায় কালোজিরাকে "মৃত্যু ছাড়া সব রোগের ওষুধ" বলা হয়েছে। এই মধুতে কালোজিরার সব গুণ বিদ্যমান।',
+    sizes:[{s:'২৫০ গ্রাম',p:330},{s:'৫০০ গ্রাম',p:630},{s:'১ কেজি',p:1200}],
+    highlights:['সর্বোচ্চ ঔষধি গুণ','রোগ প্রতিরোধ ক্ষমতা','বিরল মধু','ইসলামিক চিকিৎসায় প্রমাণিত'],
+    details:{
+      'ধরন':'কালোজিরা ফুলের মধু','উৎস':'কালোজিরা ফুল','সংগ্রহের সময়':'নভেম্বর-ফেব্রুয়ারি',
+      'রঙ':'গাঢ় বাদামী','গন্ধ':'তীক্ষ্ণ সুগন্ধ','উপকার':'রোগ প্রতিরোধক','মেয়াদ':'৩ বছর'
+    },
+    origin:{
+      title:'বিরল ও মূল্যবান',
+      desc:'মধুপুর ও ময়মনসিংহের বিশেষ কালোজিরা খামার থেকে সংগ্রহ করা হয়। কালোজিরা ফুল বছরে মাত্র একবার ফোটে এবং মধু উৎপাদন খুবই সীমিত। তাই এটি বাজারের সবচেয়ে দুর্লভ ও মূল্যবান মধু।',
+      stats:[{v:'দুর্লভ',l:'মধু'},{v:'৩বছর',l:'মেয়াদ'},{v:'সর্বোচ্চ',l:'গুণমান'}]
+    },
+    nutrition:[
+      {v:'৩৪০',l:'ক্যালরি (১০০গ্রা)'},
+      {v:'৮৩গ্রা',l:'কার্বোহাইড্রেট'},
+      {v:'থাইমোকুইনোন',l:'বিশেষ উপাদান'},
+      {v:'উচ্চ',l:'অ্যান্টিঅক্সিডেন্ট'},
+      {v:'১৬%',l:'পানি'}
+    ],
+    reviews:[
+      {name:'ডা. হাসান মাহমুদ',loc:'ঢাকা',rating:5,text:'চিকিৎসক হিসেবে এই মধুর গুণ সম্পর্কে নিশ্চিত। অসাধারণ।',date:'মার্চ ২০২৫'},
+      {name:'তানভীর আহমেদ',loc:'সিলেট',rating:5,text:'প্রতিদিন সকালে খাচ্ছি, শরীর ভালো লাগছে।',date:'ফেব্রুয়ারি ২০২৫'}
+    ]
+  },
+  {
+    id:5, name:'সুন্দরবনের চাকের মধু', cat:'modhu', catName:'মধু',
+    em:'🍯', img:'/images/sundarban-modhu.jpg', badge:'বেস্টসেলার',
+    rat:5.0, rv:129,
+    desc:'বাংলাদেশের গর্ব সুন্দরবনের গভীর জঙ্গল থেকে সংগ্রহ করা বিশ্বমানের মধু। মৌয়ালরা জীবনের ঝুঁকি নিয়ে বাঘ ও মৌমাছির ভয়ে এই মধু সংগ্রহ করেন। এটি পৃথিবীর সেরা মধুগুলোর একটি।',
+    sizes:[{s:'২৫০ গ্রাম',p:420},{s:'৫০০ গ্রাম',p:800},{s:'১ কেজি',p:1500}],
+    highlights:['বিশ্বমানের মধু','ম্যানগ্রোভ বনের গুণ','বাঘ-মৌমাছির দেশ','সর্বোচ্চ পুষ্টিগুণ'],
+    details:{
+      'উৎস':'সুন্দরবন, বাংলাদেশ','সংগ্রহকারী':'মৌয়াল সম্প্রদায়','সংগ্রহের সময়':'মার্চ-এপ্রিল',
+      'রঙ':'গাঢ় বাদামী-কালো','বিশেষত্ব':'ম্যানগ্রোভ ফুলের মিশ্রণ','সংরক্ষণ':'ঘরের তাপমাত্রায়','মেয়াদ':'৩+ বছর'
+    },
+    origin:{
+      title:'সুন্দরবনের গহীন থেকে',
+      desc:'বিশ্বের বৃহত্তম ম্যানগ্রোভ বন সুন্দরবনের মৌয়াল সম্প্রদায় প্রতি বছর মার্চ-এপ্রিল মাসে বনবিভাগের অনুমতি নিয়ে মধু সংগ্রহ করেন। সুন্দরী, গেওয়া, কেওড়াসহ অসংখ্য ম্যানগ্রোভ গাছের ফুল থেকে মৌমাছিরা এই বিশেষ মধু তৈরি করে। এই মধু UNESCO World Heritage Site এর মধু।',
+      stats:[{v:'UNESCO',l:'হেরিটেজ সাইট'},{v:'৫০+',l:'প্রজাতির ফুল'},{v:'বিশ্বসেরা',l:'মানের মধু'}]
+    },
+    nutrition:[
+      {v:'৩৫০',l:'ক্যালরি (১০০গ্রা)'},
+      {v:'৮৫গ্রা',l:'কার্বোহাইড্রেট'},
+      {v:'সর্বোচ্চ',l:'অ্যান্টিঅক্সিডেন্ট'},
+      {v:'উচ্চ',l:'এনজাইম'},
+      {v:'১৫%',l:'পানি'}
+    ],
+    reviews:[
+      {name:'আবদুল করিম',loc:'খুলনা',rating:5,text:'সুন্দরবনের পাশে থাকি, এই মধুর কথা জানি। শেকড়ের মধু সত্যিই খাঁটি।',date:'এপ্রিল ২০২৫'},
+      {name:'রোকেয়া বেগম',loc:'বরিশাল',rating:5,text:'এত ভালো মধু আর কোথাও পাইনি। বারবার কিনব।',date:'মার্চ ২০২৫'},
+      {name:'সামিউল ইসলাম',loc:'ঢাকা',rating:5,text:'গিফট হিসেবে দিয়েছিলাম, সবাই খুশি হয়েছে।',date:'ফেব্রুয়ারি ২০২৫'}
+    ]
+  },
+  {
+    id:6, name:'পাবনার গাওয়া ঘি', cat:'ghee-tel', catName:'ঘি ও তেল',
+    em:'🫙', img:'/images/gawa-ghee.jpg', badge:'খাঁটি ঘি',
+    rat:4.9, rv:74,
+    desc:'পাবনার বিখ্যাত গাওয়া ঘি — বাংলাদেশের সেরা ঘি হিসেবে পরিচিত। দেশি গরুর দুধের মালাই থেকে ঐতিহ্যবাহী পদ্ধতিতে তৈরি। এক চামচ গরম ভাতে এই ঘি দিলে পুরো ঘর সুগন্ধময় হয়ে যায়।',
+    sizes:[{s:'২৫০ গ্রাম',p:420},{s:'৫০০ গ্রাম',p:800},{s:'১ কেজি',p:1600}],
+    highlights:['দেশি গরুর দুধ','ঐতিহ্যবাহী পদ্ধতি','সুগন্ধী','উচ্চ পুষ্টিগুণ'],
+    details:{
+      'উৎস':'পাবনা, বাংলাদেশ','ধরন':'গাওয়া ঘি','দুধের উৎস':'দেশি গরু',
+      'প্রক্রিয়া':'ঐতিহ্যবাহী হাঁড়ি পদ্ধতি','রঙ':'সোনালি হলুদ','গন্ধ':'তীব্র সুগন্ধ','মেয়াদ':'১ বছর'
+    },
+    origin:{
+      title:'পাবনার ঐতিহ্য',
+      desc:'পাবনার ঘি বাংলাদেশে শতাব্দী ধরে বিখ্যাত। পাবনার দুধাল গরুর দুধ থেকে মালাই সংগ্রহ করে হাঁড়িতে ঐতিহ্যবাহী পদ্ধতিতে ঘি তৈরি করা হয়। আমাদের ঘি সংগ্রহ করি পাবনার বিশ্বস্ত দুগ্ধ খামার থেকে।',
+      stats:[{v:'১০০+',l:'বছরের ঐতিহ্য'},{v:'দেশি',l:'গরুর দুধ'},{v:'খাঁটি',l:'গ্যারান্টি'}]
+    },
+    nutrition:[
+      {v:'৯০০',l:'ক্যালরি (১০০গ্রা)'},
+      {v:'৯৯.৫গ্রা',l:'ফ্যাট'},
+      {v:'উচ্চ',l:'ভিটামিন A'},
+      {v:'উচ্চ',l:'ভিটামিন D'},
+      {v:'Butyrate',l:'বিশেষ উপাদান'}
+    ],
+    reviews:[
+      {name:'হাসিনা বেগম',loc:'পাবনা',rating:5,text:'পাবনাতে থাকি, এই ঘিয়ের মান সত্যিই ভালো।',date:'মার্চ ২০২৫'},
+      {name:'রমজান আলী',loc:'ঢাকা',rating:5,text:'বিরিয়ানিতে দিয়েছিলাম, অসাধারণ স্বাদ।',date:'ফেব্রুয়ারি ২০২৫'}
+    ]
+  },
+  {
+    id:7, name:'পাবনার সেরের ঘি', cat:'ghee-tel', catName:'ঘি ও তেল',
+    em:'🫙', img:'/images/serer-ghee.jpg', badge:'প্রিমিয়াম',
+    rat:4.8, rv:45,
+    desc:'পাবনার সেরের ঘি — গাওয়া ঘি থেকেও উচ্চমানের। সেরা মানের মালাই থেকে তৈরি এই ঘি বিশেষ অনুষ্ঠান ও উপহারের জন্য আদর্শ।',
+    sizes:[{s:'২৫০ গ্রাম',p:480},{s:'৫০০ গ্রাম',p:900},{s:'১ কেজি',p:1800}],
+    highlights:['সর্বোচ্চ মানের','বিশেষ উপহার','প্রিমিয়াম প্যাকেজিং','গভীর সুগন্ধ'],
+    details:{
+      'উৎস':'পাবনা, বাংলাদেশ','ধরন':'সেরের ঘি','মান':'প্রিমিয়াম',
+      'প্রক্রিয়া':'বিশেষ হাঁড়ি পদ্ধতি','রঙ':'গাঢ় সোনালি','মেয়াদ':'১ বছর'
+    },
+    origin:{
+      title:'প্রিমিয়াম পাবনা',
+      desc:'গাওয়া ঘি এর চেয়েও উন্নত পদ্ধতিতে তৈরি। দুধের সেরা মালাই আলাদা করে দীর্ঘ সময় ধরে ঐতিহ্যবাহী পদ্ধতিতে জ্বাল দিয়ে তৈরি করা হয়।',
+      stats:[{v:'প্রিমিয়াম',l:'মান'},{v:'সেরা',l:'মালাই'},{v:'১০০%',l:'খাঁটি'}]
+    },
+    nutrition:[
+      {v:'৯১০',l:'ক্যালরি (১০০গ্রা)'},
+      {v:'৯৯.৮গ্রা',l:'ফ্যাট'},
+      {v:'উচ্চ',l:'ভিটামিন A'},
+      {v:'উচ্চ',l:'ভিটামিন E'},
+      {v:'সর্বোচ্চ',l:'সুগন্ধ'}
+    ],
+    reviews:[
+      {name:'শাহনাজ পারভীন',loc:'ঢাকা',rating:5,text:'বিয়ের অনুষ্ঠানে ব্যবহার করেছি, সবাই প্রশংসা করেছে।',date:'এপ্রিল ২০২৫'}
+    ]
+  },
+  {
+    id:8, name:'মাঘী সরিষার তেল', cat:'ghee-tel', catName:'ঘি ও তেল',
+    em:'🫙', img:'/images/sorshar-tel.jpg', badge:'ঘানি ভাঙা',
+    rat:4.9, rv:156,
+    desc:'তেঁতুল কাঠের ঘানিতে ভাঙা মাঘী সরিষার তেল — বাংলার রান্নার ঐতিহ্যবাহী উপাদান। মাঘ মাসে পাকা সরিষা থেকে কোল্ড প্রেস পদ্ধতিতে তৈরি। তীক্ষ্ণ গন্ধ ও তীব্র স্বাদের জন্য বিখ্যাত।',
+    sizes:[{s:'২৫০ মিলি',p:85},{s:'৫০০ মিলি',p:160},{s:'১ লিটার',p:320},{s:'৫ লিটার',p:1500}],
+    highlights:['ঘানি ভাঙা','কোল্ড প্রেস','মাঘী সরিষা','তেঁতুল কাঠের ঘানি'],
+    details:{
+      'উৎস':'যশোর ও ময়মনসিংহ','পদ্ধতি':'তেঁতুল কাঠের ঘানি','সরিষার জাত':'মাঘী',
+      'রঙ':'গাঢ় হলুদ-কমলা','গন্ধ':'তীক্ষ্ণ ও সুগন্ধী','ব্যবহার':'রান্না ও সালাদ','মেয়াদ':'১ বছর'
+    },
+    origin:{
+      title:'ঘানির তেল',
+      desc:'যশোর ও ময়মনসিংহের বিশেষ মাঘী সরিষা চাষাবাদ করা হয়। মাঘ মাসে সরিষা পাকলে তেঁতুল কাঠের ঐতিহ্যবাহী ঘানিতে তেল ভাঙা হয়। কোনো তাপ বা রাসায়নিক প্রক্রিয়া ছাড়াই তেল বের করা হয় বলে সব পুষ্টিগুণ অক্ষুণ্ণ থাকে।',
+      stats:[{v:'ঘানি',l:'তেঁতুল কাঠের'},{v:'মাঘী',l:'সরিষার জাত'},{v:'কোল্ড',l:'প্রেস পদ্ধতি'}]
+    },
+    nutrition:[
+      {v:'৮৮৪',l:'ক্যালরি (১০০গ্রা)'},
+      {v:'ওমেগা-৩',l:'ফ্যাটি অ্যাসিড'},
+      {v:'ওমেগা-৬',l:'ফ্যাটি অ্যাসিড'},
+      {v:'ভিটামিন E',l:'অ্যান্টিঅক্সিডেন্ট'},
+      {v:'গ্লুকো-',l:'সাইনোলেট'}
+    ],
+    reviews:[
+      {name:'মিনারা বেগম',loc:'যশোর',rating:5,text:'আসল ঘানির তেলের গন্ধ! বাজারের তেলের সাথে তুলনাই হয় না।',date:'মার্চ ২০২৫'},
+      {name:'আনোয়ার হোসেন',loc:'ময়মনসিংহ',rating:5,text:'ইলিশ মাছ এই তেলে ভাজলে অসাধারণ স্বাদ।',date:'ফেব্রুয়ারি ২০২৫'}
+    ]
+  },
+  {
+    id:9, name:'Extra Virgin নারকেল তেল', cat:'ghee-tel', catName:'ঘি ও তেল',
+    em:'🫙', img:'/images/coconut-oil.jpg', badge:'Cold Pressed',
+    rat:4.8, rv:38,
+    desc:'সতেজ নারকেল থেকে কোল্ড প্রেস পদ্ধতিতে তৈরি Extra Virgin নারকেল তেল। রান্না, চুলের যত্ন ও ত্বকের পরিচর্যায় সমানভাবে কার্যকর।',
+    sizes:[{s:'২৫০ মিলি',p:410},{s:'৫০০ মিলি',p:820},{s:'১ লিটার',p:1600}],
+    highlights:['Extra Virgin','Cold Pressed','রান্না ও সৌন্দর্য','কোনো তাপ নেই'],
+    details:{
+      'ধরন':'Extra Virgin নারকেল তেল','পদ্ধতি':'Cold Press','উৎস':'তাজা নারকেল',
+      'রঙ':'স্বচ্ছ সাদা','গন্ধ':'হালকা নারকেল সুগন্ধ','ব্যবহার':'রান্না ও যত্ন','মেয়াদ':'২ বছর'
+    },
+    origin:{
+      title:'তাজা নারকেল থেকে',
+      desc:'বাংলাদেশের উপকূলীয় অঞ্চল — কক্সবাজার ও চট্টগ্রামের তাজা নারকেল থেকে কোল্ড প্রেস পদ্ধতিতে তৈরি। কোনো তাপ বা রাসায়নিক প্রক্রিয়া ছাড়াই তৈরি বলে সব পুষ্টিগুণ অক্ষুণ্ণ থাকে।',
+      stats:[{v:'কোল্ড',l:'প্রেস পদ্ধতি'},{v:'তাজা',l:'নারকেল'},{v:'১০০%',l:'প্রাকৃতিক'}]
+    },
+    nutrition:[
+      {v:'৮৬২',l:'ক্যালরি (১০০গ্রা)'},
+      {v:'MCT',l:'ফ্যাটি অ্যাসিড'},
+      {v:'লরিক',l:'অ্যাসিড ৫০%'},
+      {v:'ভিটামিন E',l:'অ্যান্টিঅক্সিডেন্ট'},
+      {v:'শূন্য',l:'ট্রান্স ফ্যাট'}
+    ],
+    reviews:[
+      {name:'সুমাইয়া রহমান',loc:'চট্টগ্রাম',rating:5,text:'চুলে দিচ্ছি, অনেক ভালো ফলাফল পাচ্ছি।',date:'মার্চ ২০২৫'}
+    ]
+  },
+  {
+    id:10, name:'কালিজিরার তেল', cat:'ghee-tel', catName:'ঘি ও তেল',
+    em:'🫙', img:'/images/kalojira-tel.jpg', badge:'ঔষধি',
+    rat:4.9, rv:91,
+    desc:'কালোজিরা থেকে কোল্ড প্রেস পদ্ধতিতে তৈরি ঔষধি তেল। "কালোজিরায় মৃত্যু ছাড়া সব রোগের ওষুধ আছে" — এই বিশ্বাস শতাব্দী প্রাচীন। রোগ প্রতিরোধ ক্ষমতা বাড়াতে অতুলনীয়।',
+    sizes:[{s:'৭৫ মিলি',p:180},{s:'১৫০ মিলি',p:320},{s:'২৫০ মিলি',p:520},{s:'৫০০ মিলি',p:1020}],
+    highlights:['থাইমোকুইনোন','রোগ প্রতিরোধক','ঐতিহ্যবাহী ঔষধ','Cold Pressed'],
+    details:{
+      'উৎস':'কালোজিরা','পদ্ধতি':'Cold Press','বিশেষ উপাদান':'থাইমোকুইনোন',
+      'রঙ':'গাঢ় কালো','গন্ধ':'তীক্ষ্ণ','ব্যবহার':'খাদ্য ও ঔষধ','মেয়াদ':'২ বছর'
+    },
+    origin:{
+      title:'ইসলামিক ঔষধ',
+      desc:'বাংলাদেশের উত্তরাঞ্চলে চাষ করা উচ্চমানের কালোজিরা থেকে কোল্ড প্রেস পদ্ধতিতে তৈরি। হাদিসে উল্লেখিত এই ওষুধ বিশ্বের বিভিন্ন গবেষণায় প্রমাণিত।',
+      stats:[{v:'১৪০০+',l:'বছরের ইতিহাস'},{v:'গবেষণা',l:'প্রমাণিত'},{v:'কোল্ড',l:'প্রেস'}]
+    },
+    nutrition:[
+      {v:'৮৮৫',l:'ক্যালরি (১০০গ্রা)'},
+      {v:'থাইমো-',l:'কুইনোন'},
+      {v:'ওমেগা-৬',l:'ফ্যাটি অ্যাসিড'},
+      {v:'অ্যান্টি-',l:'ব্যাকটেরিয়াল'},
+      {v:'অ্যান্টি-',l:'ইনফ্লেমেটরি'}
+    ],
+    reviews:[
+      {name:'মো. আনিসুর রহমান',loc:'রাজশাহী',rating:5,text:'প্রতিদিন এক চামচ করে খাচ্ছি। শরীর অনেক ভালো লাগছে।',date:'এপ্রিল ২০২৫'},
+      {name:'ডা. ফারিদা বেগম',loc:'ঢাকা',rating:5,text:'ঔষধি গুণ নিয়ে কোনো সন্দেহ নেই। মান অত্যন্ত ভালো।',date:'মার্চ ২০২৫'}
+    ]
+  },
+  {
+    id:11, name:'প্যারা সন্দেশ', cat:'mishti', catName:'মিষ্টি',
+    em:'🍮', img:'/images/para-sandesh.jpg', badge:'ঐতিহ্যবাহী',
+    rat:4.9, rv:203,
+    desc:'পাবনার ঐতিহ্যবাহী প্যারা সন্দেশ — বাংলাদেশের সবচেয়ে বিখ্যাত মিষ্টি। খাঁটি দুধের ছানা ও চিনি দিয়ে হাতে তৈরি এই সন্দেশ প্রজন্মের পর প্রজন্ম ধরে মানুষের মুখে জল এনেছে।',
+    sizes:[{s:'২৫০ গ্রাম',p:160},{s:'৫০০ গ্রাম',p:320},{s:'১ কেজি',p:600}],
+    highlights:['হাতে তৈরি','খাঁটি দুধের ছানা','পাবনার ঐতিহ্য','কোনো প্রিজার্ভেটিভ নেই'],
+    details:{
+      'উৎস':'পাবনা','উপাদান':'দুধের ছানা, চিনি','পদ্ধতি':'হাতে তৈরি',
+      'রঙ':'হালকা বাদামী','স্বাদ':'মিষ্টি ও দুগ্ধজ','সংরক্ষণ':'ফ্রিজে রাখুন','মেয়াদ':'৭ দিন'
+    },
+    origin:{
+      title:'পাবনার গর্ব',
+      desc:'পাবনার মিষ্টি শিল্প শতাব্দী প্রাচীন। আমাদের প্যারা সন্দেশ তৈরি হয় পাবনার বিখ্যাত মিষ্টি কারিগরদের হাতে, পাবনার খাঁটি দুধ থেকে তৈরি ছানা ব্যবহার করে। কোনো কৃত্রিম রঙ বা প্রিজার্ভেটিভ ব্যবহার করা হয় না।',
+      stats:[{v:'হাতে',l:'তৈরি'},{v:'খাঁটি',l:'দুধের ছানা'},{v:'১৫০+',l:'বছরের ঐতিহ্য'}]
+    },
+    nutrition:[
+      {v:'৩৮০',l:'ক্যালরি (১০০গ্রা)'},
+      {v:'১৫গ্রা',l:'প্রোটিন'},
+      {v:'৬০গ্রা',l:'কার্বোহাইড্রেট'},
+      {v:'১২গ্রা',l:'ফ্যাট'},
+      {v:'ক্যালসিয়াম',l:'সমৃদ্ধ'}
+    ],
+    reviews:[
+      {name:'তাহমিনা আক্তার',loc:'ঢাকা',rating:5,text:'জীবনে এত ভালো সন্দেশ খাইনি! পাবনার আসল স্বাদ।',date:'মার্চ ২০২৫'},
+      {name:'রফিকুল বারী',loc:'চট্টগ্রাম',rating:5,text:'বাড়িতে বানানো মনে হয়। অসাধারণ।',date:'ফেব্রুয়ারি ২০২৫'},
+      {name:'নূরজাহান',loc:'সিলেট',rating:5,text:'বিয়েতে অর্ডার করেছিলাম, সবাই পছন্দ করেছে।',date:'জানুয়ারি ২০২৫'}
+    ]
+  },
+  {
+    id:12, name:'আখের গুড়ের পাউডার', cat:'other', catName:'অন্যান্য',
+    em:'🟤', img:'/images/akher-gur.jpg', badge:'প্রাকৃতিক',
+    rat:4.8, rv:67,
+    desc:'চিনির স্বাস্থ্যকর বিকল্প — আখের গুড়ের পাউডার। কোনো রাসায়নিক প্রক্রিয়া ছাড়াই তৈরি এই পাউডার চায়ে, মিষ্টিতে ও রান্নায় চিনির পরিবর্তে ব্যবহার করা যায়।',
+    sizes:[{s:'৫০০ গ্রাম',p:160},{s:'১ কেজি',p:300}],
+    highlights:['চিনির বিকল্প','খনিজ সমৃদ্ধ','প্রাকৃতিক মিষ্টি','পরিশোধন ছাড়া'],
+    details:{
+      'উৎস':'আখ','পদ্ধতি':'প্রাকৃতিক','রঙ':'বাদামী',
+      'ব্যবহার':'চিনির বিকল্প','সংরক্ষণ':'শুষ্ক স্থানে','মেয়াদ':'১ বছর'
+    },
+    origin:{
+      title:'আখ থেকে গুড়',
+      desc:'বাংলাদেশের উত্তরাঞ্চলের আখ চাষীদের কাছ থেকে সরাসরি সংগ্রহ করা। আখের রস থেকে প্রাকৃতিক পদ্ধতিতে গুড় তৈরি করে সেটি পাউডার করা হয়।',
+      stats:[{v:'প্রাকৃতিক',l:'প্রক্রিয়া'},{v:'খনিজ',l:'সমৃদ্ধ'},{v:'চিনির',l:'স্বাস্থ্যকর বিকল্প'}]
+    },
+    nutrition:[
+      {v:'৩৮৩',l:'ক্যালরি (১০০গ্রা)'},
+      {v:'৯৮গ্রা',l:'কার্বোহাইড্রেট'},
+      {v:'আয়রন',l:'খনিজ'},
+      {v:'ক্যালসিয়াম',l:'খনিজ'},
+      {v:'পটাশিয়াম',l:'খনিজ'}
+    ],
+    reviews:[
+      {name:'ডা. সামিরা হক',loc:'ঢাকা',rating:5,text:'ডায়াবেটিস রোগীদের জন্য চিনির ভালো বিকল্প।',date:'মার্চ ২০২৫'}
+    ]
+  },
+  {
+    id:13, name:'সাভারী/কলমী খেজুর', cat:'khejur', catName:'খেজুর',
+    em:'🌴', img:'/images/savari-khejur.jpg', badge:'ইম্পোর্টেড',
+    rat:4.7, rv:29,
+    desc:'সৌদি আরব থেকে আনা সাভারী বা কলমী খেজুর। রমজান মাসে ইফতারের জন্য সবচেয়ে জনপ্রিয়। হালকা মিষ্টি ও নরম খেজুর।',
+    sizes:[{s:'২৫০ গ্রাম',p:220},{s:'৫০০ গ্রাম',p:430},{s:'১ কেজি',p:800},{s:'৫ কেজি বক্স',p:3600}],
+    highlights:['সৌদি আরব থেকে','রমজান স্পেশাল','নরম ও মিষ্টি','ইফতারের জন্য'],
+    details:{
+      'উৎপত্তি':'সৌদি আরব','জাত':'সাভারী/কলমী','রঙ':'হালকা বাদামী',
+      'স্বাদ':'মিষ্টি ও নরম','সংরক্ষণ':'ঠান্ডা ও শুষ্ক স্থানে','মেয়াদ':'৬ মাস'
+    },
+    origin:{
+      title:'সৌদি আরব থেকে',
+      desc:'সৌদি আরবের বিখ্যাত খেজুর বাগান থেকে সরাসরি আমদানি করা। সঠিক তাপমাত্রায় সংরক্ষণ করে বাংলাদেশে আনা হয়।',
+      stats:[{v:'সৌদি',l:'আরব'},{v:'সরাসরি',l:'আমদানি'},{v:'তাজা',l:'সংরক্ষণ'}]
+    },
+    nutrition:[
+      {v:'২৮২',l:'ক্যালরি (১০০গ্রা)'},
+      {v:'৭৫গ্রা',l:'কার্বোহাইড্রেট'},
+      {v:'২.৫গ্রা',l:'প্রোটিন'},
+      {v:'ফাইবার',l:'সমৃদ্ধ'},
+      {v:'পটাশিয়াম',l:'উচ্চ'}
+    ],
+    reviews:[
+      {name:'মো. রহিম',loc:'ঢাকা',rating:5,text:'রমজানে প্রতি বছর নিই। অনেক ভালো।',date:'মার্চ ২০২৫'}
+    ]
+  },
+  {
+    id:14, name:'ইরানি মরিয়ম খেজুর', cat:'khejur', catName:'খেজুর',
+    em:'🌴', img:'/images/maryam-khejur.jpg', badge:'প্রিমিয়াম',
+    rat:4.8, rv:41,
+    desc:'ইরান থেকে আনা বিখ্যাত মরিয়ম খেজুর। লাল রঙের এই খেজুর মাঝারি আকারের, মিষ্টি ও একটু শক্ত। ইসলামিক ঐতিহ্যে মরিয়ম খেজুরের বিশেষ গুরুত্ব রয়েছে।',
+    sizes:[{s:'২৫০ গ্রাম',p:340},{s:'৫০০ গ্রাম',p:670},{s:'১ কেজি',p:1300},{s:'৫ কেজি বক্স',p:6000}],
+    highlights:['ইরান থেকে','ইসলামিক ঐতিহ্য','লাল রঙ','মাঝারি মিষ্টি'],
+    details:{
+      'উৎপত্তি':'ইরান','জাত':'মরিয়ম','রঙ':'লাল-বাদামী',
+      'স্বাদ':'মাঝারি মিষ্টি','গঠন':'শক্ত','সংরক্ষণ':'ঠান্ডায়','মেয়াদ':'১ বছর'
+    },
+    origin:{
+      title:'ইরানের মরিয়ম',
+      desc:'ইরানের বিশেষ খেজুর বাগান থেকে সরাসরি আমদানি। ইসলামিক ইতিহাসে হযরত মরিয়মের (আ.) সাথে সম্পর্কিত এই খেজুর পুষ্টিগুণে ভরপুর।',
+      stats:[{v:'ইরান',l:'থেকে'},{v:'ইসলামিক',l:'ঐতিহ্য'},{v:'উচ্চ',l:'পুষ্টিগুণ'}]
+    },
+    nutrition:[
+      {v:'২৭৭',l:'ক্যালরি (১০০গ্রা)'},
+      {v:'৭৪গ্রা',l:'কার্বোহাইড্রেট'},
+      {v:'২গ্রা',l:'প্রোটিন'},
+      {v:'আয়রন',l:'সমৃদ্ধ'},
+      {v:'ম্যাগনেশিয়াম',l:'উচ্চ'}
+    ],
+    reviews:[
+      {name:'আয়শা সিদ্দিকা',loc:'ঢাকা',rating:5,text:'সন্তানসম্ভবা অবস্থায় খেয়েছি, অনেক উপকার পেয়েছি।',date:'ফেব্রুয়ারি ২০২৫'}
+    ]
+  },
+  {
+    id:15, name:'মেডজুল লার্জ খেজুর', cat:'khejur', catName:'খেজুর',
+    em:'🌴', img:'/images/medjool-khejur.jpg', badge:'সেরা মানের',
+    rat:4.9, rv:56,
+    desc:'খেজুরের রাজা মেডজুল! বড় আকার, অসাধারণ মিষ্টি ও নরম। এক কামড়েই বোঝা যায় কেন এটিকে "খেজুরের রাজা" বলা হয়।',
+    sizes:[{s:'২৫০ গ্রাম',p:520},{s:'৫০০ গ্রাম',p:1030},{s:'১ কেজি',p:2000},{s:'৫ কেজি বক্স',p:9500}],
+    highlights:['খেজুরের রাজা','সবচেয়ে বড়','অত্যন্ত মিষ্টি','গিফটের জন্য আদর্শ'],
+    details:{
+      'উৎপত্তি':'মরক্কো/জর্ডান','জাত':'মেডজুল লার্জ','রঙ':'গাঢ় বাদামী',
+      'স্বাদ':'অত্যন্ত মিষ্টি','গঠন':'নরম ও মাংসল','সংরক্ষণ':'ফ্রিজে','মেয়াদ':'১ বছর'
+    },
+    origin:{
+      title:'খেজুরের রাজা',
+      desc:'মরক্কো ও জর্ডানের প্রিমিয়াম মেডজুল খেজুর বাগান থেকে সরাসরি আমদানি। বিশ্বের সবচেয়ে দামী ও মূল্যবান খেজুর।',
+      stats:[{v:'প্রিমিয়াম',l:'মান'},{v:'সরাসরি',l:'আমদানি'},{v:'গিফট',l:'আদর্শ'}]
+    },
+    nutrition:[
+      {v:'২৯৭',l:'ক্যালরি (১০০গ্রা)'},
+      {v:'৭৯গ্রা',l:'কার্বোহাইড্রেট'},
+      {v:'২গ্রা',l:'প্রোটিন'},
+      {v:'উচ্চ',l:'ফাইবার'},
+      {v:'ম্যাঙ্গানিজ',l:'উচ্চ'}
+    ],
+    reviews:[
+      {name:'তানজিলা ইসলাম',loc:'ঢাকা',rating:5,text:'গিফট দিয়েছিলাম, সবাই অবাক হয়ে গেছে। এত বড় ও মিষ্টি খেজুর!',date:'এপ্রিল ২০২৫'},
+      {name:'মাহবুব আলম',loc:'চট্টগ্রাম',rating:5,text:'দাম একটু বেশি, কিন্তু মান অতুলনীয়।',date:'মার্চ ২০২৫'}
+    ]
+  },
+  {
+    id:16, name:'সেমাই গিফট বক্স', cat:'other', catName:'অন্যান্য',
+    em:'🎁', img:'/images/semai-box.jpg', badge:'গিফট স্পেশাল',
+    rat:4.8, rv:33,
+    desc:'ঈদ ও বিশেষ অনুষ্ঠানের জন্য সেমাই গিফট বক্স। খাঁটি উপাদান দিয়ে তৈরি প্রিমিয়াম সেমাই, সুন্দর বক্সে প্যাক করা। আপনার প্রিয়জনকে দিন শেকড়ের গিফট বক্স।',
+    sizes:[{s:'ছোট বক্স',p:350},{s:'বড় বক্স',p:600}],
+    highlights:['গিফটের জন্য','সুন্দর প্যাকেজিং','খাঁটি উপাদান','ঈদ স্পেশাল'],
+    details:{
+      'ধরন':'গিফট বক্স','উপাদান':'সেমাই, বাদাম, কিশমিশ','প্যাকেজিং':'প্রিমিয়াম বক্স',
+      'উপলক্ষ':'ঈদ, বিয়ে, উৎসব','সংরক্ষণ':'শুষ্ক স্থানে','মেয়াদ':'৩ মাস'
+    },
+    origin:{
+      title:'বিশেষ উপহার',
+      desc:'ঈদুল ফিতর ও অন্যান্য বিশেষ অনুষ্ঠানের জন্য তৈরি বিশেষ গিফট বক্স। হাতে তৈরি সেমাই ও বিভিন্ন শুকনো ফলমূল দিয়ে সুন্দর বক্সে প্যাক করা হয়।',
+      stats:[{v:'হাতে',l:'তৈরি'},{v:'প্রিমিয়াম',l:'প্যাকেজিং'},{v:'গিফট',l:'আদর্শ'}]
+    },
+    nutrition:[
+      {v:'৩৫০',l:'ক্যালরি (১০০গ্রা)'},
+      {v:'সেমাই',l:'মূল উপাদান'},
+      {v:'বাদাম',l:'প্রোটিন'},
+      {v:'কিশমিশ',l:'প্রাকৃতিক'},
+      {v:'মিষ্টি',l:'প্রাকৃতিক'}
+    ],
+    reviews:[
+      {name:'ফারহান আহমেদ',loc:'ঢাকা',rating:5,text:'ঈদে গিফট দিয়েছিলাম, সবাই অনেক খুশি।',date:'এপ্রিল ২০২৫'}
+    ]
+  }
+];
+
+// ── CART ──
+let cart = JSON.parse(localStorage.getItem('sCart') || '[]');
+let currentProduct = null;
+let selectedSize = null;
+let qty = 1;
+
+function stars(r){ return '★'.repeat(Math.round(r)) + '☆'.repeat(5-Math.round(r)); }
+
+// ── LOAD PRODUCT FROM URL ──
+function loadProduct(){
+  const params = new URLSearchParams(window.location.search);
+  const id = parseInt(params.get('id'));
+  const p = PRODUCTS.find(x => x.id === id);
+  if(!p){ window.location.href = 'index.html'; return; }
+  currentProduct = p;
+  selectedSize = p.sizes[1] || p.sizes[0];
+
+  // Update page title
+  document.title = p.name + ' — শেকড়';
+
+  // Breadcrumb
+  document.getElementById('bc-cat').textContent = p.catName;
+  document.getElementById('bc-name').textContent = p.name;
+
+  // Badge
+  document.getElementById('pBadge').textContent = p.badge;
+
+  // Image
+  if(p.img){
+    document.getElementById('mainEmoji').style.display = 'none';
+    const img = document.getElementById('mainImgEl');
+    img.src = p.img; img.alt = p.name; img.style.display = 'block';
+    img.onerror = function(){ this.style.display='none'; document.getElementById('mainEmoji').style.display='block'; };
+  } else {
+    document.getElementById('mainEmoji').textContent = p.em;
+  }
+
+  // Info
+  document.getElementById('pCat').textContent = p.catName;
+  document.getElementById('pName').textContent = p.name;
+  document.getElementById('pStars').textContent = stars(p.rat);
+  document.getElementById('pRating').textContent = p.rat;
+  document.getElementById('pReviews').textContent = '(' + p.rv + ' রিভিউ)';
+  document.getElementById('pDesc').textContent = p.desc;
+
+  // Sizes
+  const sizesEl = document.getElementById('pSizes');
+  sizesEl.innerHTML = p.sizes.map((s,i) => `
+    <button class="sz-btn ${i===1||p.sizes.length===1?'active':''}" onclick="selectSize(${i},this)">
+      ${s.s}<br/><small style="font-size:.75rem">৳${s.p}</small>
+    </button>`).join('');
+
+  updatePrice();
+
+  // Highlights
+  document.getElementById('pHighlights').innerHTML = (p.highlights||[]).map(h =>
+    `<div class="hl"><span class="hl-ic">✅</span><span class="hl-txt">${h}</span></div>`).join('');
+
+  // Details tab
+  document.getElementById('detailsTable').innerHTML = Object.entries(p.details||{}).map(([k,v]) =>
+    `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
+
+  // Origin tab
+  const o = p.origin || {};
+  document.getElementById('originBox').innerHTML = `
+    <h3>🌿 ${o.title||'উৎস'}</h3>
+    <p>${o.desc||''}</p>
+    <div class="origin-stats">${(o.stats||[]).map(s=>
+      `<div class="os"><h4>${s.v}</h4><p>${s.l}</p></div>`).join('')}
+    </div>`;
+
+  // Nutrition tab
+  document.getElementById('nutritionGrid').innerHTML = (p.nutrition||[]).map(n =>
+    `<div class="nut-card"><div class="nut-val">${n.v}</div><div class="nut-name">${n.l}</div></div>`).join('');
+
+  // Reviews tab
+  const reviews = p.reviews || [];
+  const avgRating = p.rat;
+  document.getElementById('reviewSummary').innerHTML = `
+    <div class="rs-big">
+      <div class="rs-num">${avgRating}</div>
+      <div class="rs-stars">${stars(avgRating)}</div>
+      <div class="rs-count">${p.rv} রিভিউ</div>
+    </div>
+    <div class="review-bars">
+      ${[5,4,3,2,1].map(n => `<div class="rb"><span class="rb-label">${n}★</span><div class="rb-bar"><div class="rb-fill" style="width:${n===5?80:n===4?15:5}%"></div></div><span class="rb-count">${n===5?Math.round(p.rv*.8):n===4?Math.round(p.rv*.15):Math.round(p.rv*.05)}</span></div>`).join('')}
+    </div>`;
+
+  document.getElementById('reviewList').innerHTML = reviews.map(r => `
+    <div class="review-card">
+      <div class="rc-head">
+        <div class="rc-av">${r.name[0]}</div>
+        <div><div class="rc-name">${r.name}</div><div class="rc-date">${r.loc} · ${r.date}</div></div>
+      </div>
+      <div class="rc-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+      <div class="rc-text">${r.text}</div>
+    </div>`).join('');
+
+  // Related products
+  const related = PRODUCTS.filter(x => x.cat === p.cat && x.id !== p.id).slice(0,4);
+  document.getElementById('relGrid').innerHTML = related.map(r => `
+    <div class="rel-card" onclick="location.href='product.html?id=${r.id}'">
+      <div class="rel-img">${r.img?`<img src="${r.img}" alt="${r.name}" onerror="this.parentElement.innerHTML='${r.em}'"/>`:r.em}</div>
+      <div class="rel-info">
+        <div class="rel-name">${r.name}</div>
+        <div class="rel-price">৳${r.sizes[0].p}+</div>
+      </div>
+    </div>`).join('');
+}
+
+function selectSize(i, btn){
+  document.querySelectorAll('.sz-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedSize = currentProduct.sizes[i];
+  updatePrice();
+}
+
+function updatePrice(){
+  if(!selectedSize) return;
+  document.getElementById('pPrice').textContent = '৳' + selectedSize.p;
+}
+
+function changeQty(d){
+  qty = Math.max(1, Math.min(50, qty + d));
+  document.getElementById('qtyInput').value = qty;
+}
+
+function addToCart(){
+  if(!currentProduct || !selectedSize) return;
+  const key = currentProduct.id + '-' + selectedSize.s;
+  const ex = cart.find(x => x.key === key);
+  if(ex) ex.qty += qty;
+  else cart.push({key, id:currentProduct.id, name:currentProduct.name, sz:selectedSize.s, price:selectedSize.p, img:currentProduct.img||'', em:currentProduct.em, qty});
+  saveCart(); updateBadge(); renderCart(); openCart();
+  toast('✓ ' + currentProduct.name + ' কার্টে যোগ হয়েছে!');
+}
+
+function orderNow(){
+  addToCart();
+  setTimeout(() => { window.location.href = 'checkout.html'; }, 500);
+}
+
+function removeCart(k){ cart=cart.filter(x=>x.key!==k); saveCart();updateBadge();renderCart(); }
+function changeCartQty(k,d){ const i=cart.find(x=>x.key===k); if(i){i.qty+=d;if(i.qty<=0)cart=cart.filter(x=>x.key!==k);} saveCart();updateBadge();renderCart(); }
+function saveCart(){ localStorage.setItem('sCart',JSON.stringify(cart)); }
+function updateBadge(){ document.getElementById('cb').textContent=cart.reduce((s,x)=>s+x.qty,0); }
+
+function renderCart(){
+  const el=document.getElementById('cdit');
+  const tot=cart.reduce((s,x)=>s+x.price*x.qty,0);
+  document.getElementById('cdt').textContent='৳'+tot;
+  if(!cart.length){el.innerHTML='<div class="cdem"><p style="font-size:2rem">🛒</p><p>কার্ট খালি</p></div>';return;}
+  el.innerHTML=cart.map(x=>`<div class="ci">
+    <div class="cii">${x.img?`<img src="${x.img}" alt="${x.name}" onerror="this.parentElement.innerHTML='${x.em||'🌿'}'"/>`:(x.em||'🌿')}</div>
+    <div style="flex:1"><div class="cin">${x.name}</div><div class="cisz">${x.sz}</div><div class="cip">৳${x.price}</div>
+    <div class="ciq"><button class="qb" onclick="changeCartQty('${x.key}',-1)">−</button><span class="qn">${x.qty}</span><button class="qb" onclick="changeCartQty('${x.key}',1)">+</button><button class="cdl" onclick="removeCart('${x.key}')">🗑</button></div></div>
+    <strong style="color:var(--g)">৳${x.price*x.qty}</strong></div>`).join('');
+}
+
+function openCart(){ document.getElementById('cdr').classList.add('op'); document.getElementById('cov').classList.add('op'); }
+function closeCart(){ document.getElementById('cdr').classList.remove('op'); document.getElementById('cov').classList.remove('op'); }
+function showTab(id, btn){ document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active')); document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); document.getElementById('tab-'+id).classList.add('active'); btn.classList.add('active'); }
+function toast(m){ const d=document.createElement('div');d.className='tst';d.textContent=m;document.body.appendChild(d);setTimeout(()=>d.remove(),2500); }
+
+loadProduct(); updateBadge(); renderCart();
+</script>
+</body>
+</html>
