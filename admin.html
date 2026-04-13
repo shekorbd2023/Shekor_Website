@@ -471,17 +471,51 @@ function quickEditPrice(id){
 // ── IMAGE GRID ──
 function renderImgGrid(){
   document.getElementById('imgGrid').innerHTML = products.map(p=>`
-    <div class="img-card">
-      <div class="img-thumb">${p.img?`<img src="${p.img}" alt="${p.name}"/>`:p.em}</div>
-      <div class="img-info">
-        <div class="img-name">${p.name}</div>
-        <div class="img-status ${p.img?'has':'no'}">${p.img?'✅ ছবি আছে':'⬜ ছবি নেই'}</div>
+    <div style="background:var(--w);border-radius:12px;padding:1.2rem;box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:.8rem;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:.8rem;">
+        <div style="width:60px;height:60px;border-radius:8px;overflow:hidden;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0;">
+          ${p.img?`<img src="${p.img}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='${p.em}'"/>`:p.em}
+        </div>
+        <div style="flex:1">
+          <div style="font-family:'Hind Siliguri',sans-serif;font-weight:700;color:var(--g);margin-bottom:2px;">${p.name}</div>
+          <div style="font-size:.72rem;color:${p.img?'var(--g3)':'var(--t3)'};">${p.img?'✅ ছবি আছে':'⬜ ছবি নেই'}</div>
+        </div>
       </div>
-      <label class="upload-lbl">
-        📷 আপলোড
-        <input type="file" accept="image/*" style="display:none" onchange="uploadImg(event,${p.id})"/>
-      </label>
+      <div style="display:flex;gap:.5rem;margin-bottom:.6rem;">
+        <input type="text" id="url-${p.id}" value="${p.img||''}" placeholder="ছবির URL বসান যেমন: https://i.ibb.co/xxx/modhu.jpg" style="flex:1;padding:.6rem .8rem;border:1.5px solid var(--cream2);border-radius:8px;font-size:.78rem;outline:none;font-family:'DM Sans',sans-serif;"/>
+        <button onclick="saveImgUrl(${p.id})" style="background:var(--g);color:white;border:none;padding:.6rem 1rem;border-radius:8px;cursor:pointer;font-size:.78rem;font-weight:600;white-space:nowrap;">✓ সেভ</button>
+      </div>
+      <div style="display:flex;gap:.5rem;">
+        <label style="flex:1;background:var(--cream);border:1.5px dashed var(--cream2);border-radius:8px;padding:.5rem;text-align:center;cursor:pointer;font-size:.75rem;color:var(--t3);">
+          📁 বা ফাইল থেকে আপলোড করুন
+          <input type="file" accept="image/*" style="display:none" onchange="uploadImgFile(event,${p.id})"/>
+        </label>
+        <a href="https://imgbb.com" target="_blank" style="background:#1877F2;color:white;border:none;padding:.5rem .8rem;border-radius:8px;font-size:.72rem;font-weight:600;text-decoration:none;display:flex;align-items:center;white-space:nowrap;">🔗 imgBB তে আপলোড</a>
+      </div>
     </div>`).join('');
+}
+
+function saveImgUrl(id){
+  const url = document.getElementById('url-'+id).value.trim();
+  if(!url){ alert('URL দিন'); return; }
+  const p = products.find(x=>x.id===id);
+  p.img = url;
+  saveProds();
+  renderImgGrid();
+  toast('✅ '+p.name+' এর ছবি সেভ হয়েছে!');
+}
+
+function uploadImgFile(e,id){
+  const file=e.target.files[0];if(!file)return;
+  const p=products.find(x=>x.id===id);
+  const r=new FileReader();
+  r.onload=ev=>{
+    p.img=ev.target.result;
+    document.getElementById('url-'+id).value='(local file)';
+    saveProds();renderImgGrid();
+    toast('✅ '+p.name+' এর ছবি সেভ হয়েছে! (URL দিলে সব জায়গায় দেখাবে)');
+  };
+  r.readAsDataURL(file);
 }
 
 async function uploadImg(e,id){
