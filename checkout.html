@@ -107,8 +107,16 @@ nav{background:var(--w);box-shadow:0 2px 20px rgba(0,0,0,.08);padding:0 5%;}
       <div class="form-grid">
         <div class="fg"><label>আপনার নাম *</label><input type="text" id="cName" placeholder="পূর্ণ নাম লিখুন"/></div>
         <div class="fg"><label>মোবাইল নম্বর *</label><input type="tel" id="cPhone" placeholder="01XXXXXXXXX"/></div>
+        <div class="fg"><label>ইমেইল ঠিকানা</label><input type="email" id="cEmail" placeholder="example@gmail.com"/><small style="color:var(--t3);font-size:.75rem;margin-top:3px;">অর্ডার আপডেট ইমেইলে পাঠানো হবে</small></div>
+        <div class="fg"><label>জেলা *</label><select id="cDistrict" style="padding:.75rem 1rem;border:1.5px solid var(--cream2);border-radius:8px;font-family:'Hind Siliguri',sans-serif;font-size:.9rem;color:var(--t);outline:none;background:var(--cream);">
+          <option value="">জেলা সিলেক্ট করুন</option>
+          <option>ঢাকা</option><option>চট্টগ্রাম</option><option>সিলেট</option><option>রাজশাহী</option>
+          <option>খুলনা</option><option>বরিশাল</option><option>রংপুর</option><option>ময়মনসিংহ</option>
+          <option>কুমিল্লা</option><option>নারায়ণগঞ্জ</option><option>গাজীপুর</option><option>পাবনা</option>
+          <option>যশোর</option><option>দিনাজপুর</option><option>বগুড়া</option><option>অন্যান্য</option>
+        </select></div>
       </div>
-      <div class="fg"><label>সম্পূর্ণ ঠিকানা *</label><textarea id="cAddr" placeholder="বাড়ি নং, রাস্তা, এলাকা, জেলা..."></textarea></div>
+      <div class="fg"><label>সম্পূর্ণ ঠিকানা *</label><textarea id="cAddr" placeholder="বাড়ি নং, রাস্তা, এলাকা, থানা..."></textarea></div>
       <div class="fg"><label>অতিরিক্ত নোট (ঐচ্ছিক)</label><input type="text" id="cNote" placeholder="ডেলিভারি সম্পর্কে কিছু বলতে চান?"/></div>
     </div>
 
@@ -181,6 +189,7 @@ nav{background:var(--w);box-shadow:0 2px 20px rgba(0,0,0,.08);padding:0 5%;}
       <div style="margin-top:1rem;padding-top:.5rem;">
         <div class="summary-row"><span>পণ্যের মূল্য</span><span id="subtotal">৳০</span></div>
         <div class="summary-row"><span>ডেলিভারি চার্জ</span><span id="delivery">৳৬০</span></div>
+        <div style="font-size:.72rem;color:var(--t3);text-align:right;margin-top:-8px;font-family:'Hind Siliguri',sans-serif;">ঢাকা ৳৬০ | ঢাকার পাশে ৳৮০ | সারা বাংলাদেশ ৳১২০</div>
         <div class="summary-row total"><span>মোট</span><span id="grandtotal">৳০</span></div>
       </div>
     </div>
@@ -250,8 +259,10 @@ async function placeOrder() {
   const addr = document.getElementById('cAddr').value.trim();
 
   if (!name) { alert('আপনার নাম লিখুন'); return; }
-  if (!phone || phone.length < 11) { alert('সঠিক মোবাইল নম্বর দিন'); return; }
-  if (!addr) { alert('ঠিকানা লিখুন'); return; }
+  if (!phone || phone.length < 11) { alert('সঠিক মোবাইল নম্বর দিন (১১ সংখ্যা)'); return; }
+  const district = document.getElementById('cDistrict').value;
+  if (!district) { alert('জেলা সিলেক্ট করুন'); return; }
+  if (!addr) { alert('সম্পূর্ণ ঠিকানা লিখুন'); return; }
   if (!cart.length) { alert('কার্ট খালি!'); return; }
 
   let paymentNumber = '', transactionId = '';
@@ -318,6 +329,15 @@ function goHome() { location.href = 'index.html'; }
 function msgFB() { window.open('https://www.facebook.com/shekorbd23', '_blank'); }
 
 renderSummary();
+
+// Update delivery charge when district changes
+document.getElementById('cDistrict').addEventListener('change', function(){
+  const sub = cart.reduce((s, x) => s + x.price * x.qty, 0);
+  const d = this.value;
+  const charge = d === 'ঢাকা' ? 60 : d === 'নারায়ণগঞ্জ' || d === 'গাজীপুর' ? 80 : 120;
+  document.getElementById('delivery').textContent = '৳' + charge;
+  document.getElementById('grandtotal').textContent = '৳' + (sub + charge);
+});
 </script>
 </body>
 </html>

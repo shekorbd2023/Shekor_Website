@@ -146,6 +146,7 @@ tr:hover td{background:#FAFDF9;}
   <button class="sb-link" onclick="goPage('images',this)"><span class="ic">🖼</span> পণ্যের ছবি</button>
 
   <div class="sb-section">রিপোর্ট</div>
+  <button class="sb-link" onclick="goPage('customers',this)"><span class="ic">👥</span> গ্রাহক তালিকা</button>
   <button class="sb-link" onclick="goPage('analytics',this)"><span class="ic">📈</span> বিক্রয় রিপোর্ট</button>
 
   <div class="sb-bottom">
@@ -278,6 +279,43 @@ tr:hover td{background:#FAFDF9;}
       </div>
     </div>
 
+    <!-- ══ CUSTOMERS ══ -->
+    <div class="page" id="pg-customers">
+      <div class="card">
+        <div class="card-head">
+          <h2>👥 গ্রাহক তালিকা</h2>
+          <div style="display:flex;gap:.5rem;">
+            <input type="text" id="custSearch" placeholder="নাম/ফোন/ইমেইল খুঁজুন..." style="padding:.45rem .9rem;border:1.5px solid var(--cream2);border-radius:8px;font-size:.85rem;outline:none;width:220px;" oninput="filterCusts(this.value)"/>
+            <button class="btn btn-g btn-sm" onclick="loadCustomers()">🔄 রিফ্রেশ</button>
+            <button class="btn btn-outline btn-sm" onclick="exportCSV()">📥 CSV</button>
+          </div>
+        </div>
+        <div class="alert alert-green">✅ কেউ অর্ডার করলেই তার নাম, ফোন, ইমেইল ও জেলা এখানে জমা হবে।</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.2rem;">
+          <div style="background:var(--cream);border-radius:10px;padding:1rem;text-align:center;">
+            <div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--g)" id="cs-total">০</div>
+            <div style="font-size:.75rem;color:var(--t3)">মোট গ্রাহক</div>
+          </div>
+          <div style="background:var(--cream);border-radius:10px;padding:1rem;text-align:center;">
+            <div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--g)" id="cs-email">০</div>
+            <div style="font-size:.75rem;color:var(--t3)">ইমেইল আছে</div>
+          </div>
+          <div style="background:var(--cream);border-radius:10px;padding:1rem;text-align:center;">
+            <div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--g)" id="cs-repeat">০</div>
+            <div style="font-size:.75rem;color:var(--t3)">বারবার কেনেন</div>
+          </div>
+          <div style="background:var(--cream);border-radius:10px;padding:1rem;text-align:center;">
+            <div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--g)" id="cs-rev">৳০</div>
+            <div style="font-size:.75rem;color:var(--t3)">মোট আয়</div>
+          </div>
+        </div>
+        <div class="tbl-wrap"><table>
+          <thead><tr><th>#</th><th>নাম</th><th>ফোন</th><th>ইমেইল</th><th>জেলা</th><th>অর্ডার</th><th>মোট খরচ</th><th>তারিখ</th></tr></thead>
+          <tbody id="custTbl"><tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--t3)">লোড হচ্ছে...</td></tr></tbody>
+        </table></div>
+      </div>
+    </div>
+
     <!-- ══ ANALYTICS ══ -->
     <div class="page" id="pg-analytics">
       <div class="stats-grid">
@@ -396,14 +434,15 @@ function goPage(id, btn){
   document.querySelectorAll('.sb-link').forEach(b=>b.classList.remove('act'));
   document.getElementById('pg-'+id).classList.add('act');
   if(btn) btn.classList.add('act');
-  const titles={dashboard:'ড্যাশবোর্ড',orders:'অর্ডার সমূহ',products:'পণ্য ব্যবস্থাপনা',prices:'দাম আপডেট',images:'পণ্যের ছবি',analytics:'বিক্রয় রিপোর্ট'};
-  const descs={dashboard:'সব তথ্য এক নজরে',orders:'সব অর্ডার পরিচালনা করুন',products:'পণ্য যোগ, সম্পাদনা ও মুছুন',prices:'পণ্যের দাম পরিবর্তন করুন',images:'পণ্যের ছবি আপলোড করুন',analytics:'বিক্রয় পরিসংখ্যান দেখুন'};
+  const titles={dashboard:'ড্যাশবোর্ড',orders:'অর্ডার সমূহ',products:'পণ্য ব্যবস্থাপনা',prices:'দাম আপডেট',images:'পণ্যের ছবি',customers:'গ্রাহক তালিকা',analytics:'বিক্রয় রিপোর্ট'};
+  const descs={dashboard:'সব তথ্য এক নজরে',orders:'সব অর্ডার পরিচালনা করুন',products:'পণ্য যোগ, সম্পাদনা ও মুছুন',prices:'পণ্যের দাম পরিবর্তন করুন',images:'পণ্যের ছবি আপলোড করুন',customers:'সব গ্রাহকের তথ্য ও ইমেইল',analytics:'বিক্রয় পরিসংখ্যান দেখুন'};
   document.getElementById('pageTitle').textContent=titles[id]||id;
   document.getElementById('pageDesc').textContent=descs[id]||'';
   if(id==='products') renderProdTable();
   if(id==='prices') renderPriceTables();
   if(id==='images') renderImgGrid();
   if(id==='orders') loadOrders();
+  if(id==='customers') loadCustomers();
 }
 
 // ── PRODUCT TABLE ──
@@ -674,6 +713,71 @@ function toast(m){
   d.style.cssText='position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--g);color:white;padding:.8rem 1.5rem;border-radius:25px;font-family:"Hind Siliguri",sans-serif;font-size:.9rem;z-index:9999;white-space:nowrap;box-shadow:0 8px 25px rgba(0,0,0,.2);animation:ti .3s ease;';
   d.textContent=m;document.body.appendChild(d);
   setTimeout(()=>d.remove(),2500);
+}
+
+// ── CUSTOMERS ──
+let allCustomers = [];
+
+async function loadCustomers(){
+  try{
+    const res = await fetch('/api/customers');
+    const data = await res.json();
+    if(data.customers){
+      allCustomers = data.customers;
+      renderCustomers(allCustomers);
+      document.getElementById('cs-total').textContent = allCustomers.length;
+      document.getElementById('cs-email').textContent = allCustomers.filter(c=>c.email).length;
+      document.getElementById('cs-repeat').textContent = allCustomers.filter(c=>c.totalOrders>1).length;
+      const rev = allCustomers.reduce((s,c)=>s+(c.totalSpent||0),0);
+      document.getElementById('cs-rev').textContent = '৳'+rev.toLocaleString();
+    }
+  }catch{
+    renderCustomers([]);
+    document.getElementById('custTbl').innerHTML = '<tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--t3);font-family:'Hind Siliguri',sans-serif">সার্ভার কানেক্ট করুন — অর্ডার করলেই গ্রাহক এখানে দেখাবে</td></tr>';
+  }
+}
+
+function renderCustomers(list){
+  const tbl = document.getElementById('custTbl');
+  if(!list.length){
+    tbl.innerHTML='<tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--t3)">কোনো গ্রাহক নেই</td></tr>';
+    return;
+  }
+  tbl.innerHTML = list.map((c,i)=>`
+    <tr>
+      <td style="color:var(--t3);font-size:.8rem">${i+1}</td>
+      <td><strong style="font-family:'Hind Siliguri',sans-serif">${c.name}</strong></td>
+      <td><a href="tel:${c.phone}" style="color:var(--g);text-decoration:none;font-weight:600">${c.phone}</a></td>
+      <td>${c.email?`<a href="mailto:${c.email}" style="color:var(--blue);text-decoration:none;font-size:.82rem">${c.email}</a>`:'<span style="color:var(--t3);font-size:.8rem">নেই</span>'}</td>
+      <td><span class="bdg bdg-green" style="font-size:.72rem">${c.district||'-'}</span></td>
+      <td><span class="bdg ${c.totalOrders>2?'bdg-green':'bdg-blue'}">${c.totalOrders}টি</span></td>
+      <td><strong style="color:var(--g)">৳${(c.totalSpent||0).toLocaleString()}</strong></td>
+      <td style="font-size:.75rem;color:var(--t3)">${c.createdAt?new Date(c.createdAt).toLocaleDateString('bn-BD'):'-'}</td>
+    </tr>`).join('');
+}
+
+function filterCusts(q){
+  if(!q){renderCustomers(allCustomers);return;}
+  const f = allCustomers.filter(c=>
+    c.name.includes(q)||c.phone.includes(q)||(c.email||'').toLowerCase().includes(q.toLowerCase())||(c.district||'').includes(q)
+  );
+  renderCustomers(f);
+}
+
+function exportCSV(){
+  if(!allCustomers.length){toast('কোনো গ্রাহক নেই');return;}
+  const head = 'নাম,ফোন,ইমেইল,জেলা,মোট অর্ডার,মোট খরচ,তারিখ
+';
+  const rows = allCustomers.map(c=>
+    `"${c.name}","${c.phone}","${c.email||''}","${c.district||''}",${c.totalOrders||0},${c.totalSpent||0},"${c.createdAt?new Date(c.createdAt).toLocaleDateString():''}"`
+  ).join('
+');
+  const blob = new Blob(['﻿'+head+rows],{type:'text/csv;charset=utf-8;'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'shekor-customers-'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+  toast('✅ CSV ডাউনলোড হচ্ছে!');
 }
 
 // ── INIT ──
